@@ -8,8 +8,7 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 #### HGMD
 ##### Source
 *Stenson, Peter D., et al. "Human gene mutation database (HGMD®): 2003 update." Human mutation 21.6 (2003): 577-581.*
-##### Scripts Used
-- getHGMD.sql
+##### Script Used
 - cleanHGMD.pl
 ##### Description
 1. Download data of interest from the HGMD using getHGMD.sql
@@ -31,9 +30,11 @@ We had multiVCFs containing data for many 1KGP populations; VCFs were divided in
 snpFreq_perIndividual.pl
 ##### Description
 The script counts the number of variants that are present in the HGMD from each individual. The script compares the position of each variant described in the multi-VCF files with the data in the HGMD database. If the disease-causing allele of the variant is present in the individual's genome, it is counted in the following way:
-Homozygous absent: 0|0 --> +0
-Heterozygous present: 0|1 or 1|0 --> +1
-Homozygous present: 1|1 --> +2
+
+- Homozygous absent: 0|0 --> +0
+- Heterozygous present: 0|1 or 1|0 --> +1
+- Homozygous present: 1|1 --> +2
+
 The script outputs one individual per row, with the total sum of disease causing variants present in the individual's genome.
 If there is incongruence with the number of typed-positions per individual, the total sum must be divided by the total-typed positions. We did not have to do that since our data was consistent.
 
@@ -77,7 +78,7 @@ The script first appends the genomic position of variant associated with every H
 
 ## Script Description
 
-#### getHGMD.sql
+#### Get HGMD
 ```sql
 SELECT
 	ngs_feature_2016.chromosome,
@@ -121,16 +122,16 @@ HGMD input file must be in the format depicted in the section above
 |:---------:|:------------:|:----------:|:-------------------:|:---------------------:|
 
 SAMPLE_ID: The ID of the individual in the VCF file
-HETEROZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the homozygous form
-               in other words... total instances of heterozygous-present variants
-               calculation: R|A = +1 , A|R = +1
-                           R = Reference Allele (usually depicted as 0)
-                           A = Alternate Allele (usually depicted as 1)
-HOMOZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the heterozygous form
-             in other words... total instances of homozygous-present variants
-               calculation: A|A = +1
-                           R = Reference Allele (usually depicted as 0)
-                           A = Alternate Allele (usually depicted as 1)
+-  HETEROZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the homozygous form
+⋅⋅⋅ in other words... total instances of heterozygous-present variants
+⋅⋅⋅ calculation: R|A = +1 , A|R = +1
+⋅⋅⋅ R = Reference Allele (usually depicted as 0)
+⋅⋅⋅ A = Alternate Allele (usually depicted as 1)
+- HOMOZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the heterozygous form
+⋅⋅⋅ in other words... total instances of homozygous-present variants
+⋅⋅⋅ calculation: A|A = +1
+⋅⋅⋅ R = Reference Allele (usually depicted as 0)
+⋅⋅⋅ A = Alternate Allele (usually depicted as 1)
 TOTAL_HGMD_VARIANTS: total number of disease-causing variants present, no matter how they are present
                calculation: R|A = +1 , A|R = +1 , A|A = +2
                            R = Reference Allele (usually depicted as 0)
