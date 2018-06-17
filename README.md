@@ -50,10 +50,10 @@ snpFrequency_general.pl
 snpFrequency_homozygous.pl
 ##### Description
 The script counts the number of individuals per populaiton that have the disease-causing allele of the variant present in their genome. The sum is calculated in the following way:
-Homozygous absent: 0|0 --> +0
-Heterozygous present: 0|1 or 1|0 --> +1
-Homozygous present: 1|1 --> +2
-The script then di
+- Homozygous absent: 0|0 --> +0
+- Heterozygous present: 0|1 or 1|0 --> +1
+- Homozygous present: 1|1 --> +2
+
 The script outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is sum of the frequency of each variant per population.
 
 ### Ontology
