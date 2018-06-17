@@ -74,11 +74,9 @@ ontology_chrPos.pl
 ##### Description
 The script first appends the genomic position of variant associated with every HGMD trait/disease, in the chromosome:position format, and then makes a list of all variants per ontology category.
 
-### Data Analysis
-
 ## Script Description
 
-#### Get HGMD
+### Get HGMD
 ```sql
 SELECT
 	ngs_feature_2016.chromosome,
@@ -92,7 +90,7 @@ WHERE ngs_feature_2016.genome='hg19'
 AND hgmd_2016.confidence='high'
 INTO OUTFILE '/path/to/hgmd.txt';
 ```
-##### Output
+#### Output
 |Chromosome | Position | RSID | Ref | Alt | Disease/Trait|
 |:---------:|:--------:|:----:|:---:|:---:|:------------:|
 |chr1 | 12059084 | rs373107074 | C | T | Charcot-Marie-Tooth disease 2a|
@@ -101,58 +99,52 @@ INTO OUTFILE '/path/to/hgmd.txt';
 | ... | ... | ... | ... | ... | ... |
 
 
-#### cleanHGMD.pl
+### cleanHGMD.pl
 ```
 ./cleanHGMD.pl /path/to/hgmd.txt /path/to/outfile.txt
 ```
-##### Input
+#### Input
 HGMD input file must be in the format depicted in the section above
-##### Output
+#### Output
 Output will be in the same format but with less lines
 
-#### snpFreq_perIndividual.pl
+### snpFreq_perIndividual.pl
 ```
 ./snpFreq_perIndividual.pl /path/to/VCFfile.vcf /path/to/hgmd.txt /path/to/output.txt
 ```
-##### Input
+#### Input
 VCF file must be a tab-separated multi-VCF file, one variant per line, array of individuals with a '|' separating alleles
 HGMD input file must be in the format depicted in the section above
-##### Output
+#### Output
 | SAMPLE_ID | HETEROZYGOUS | HOMOZYGOUS | TOTAL_HGMD_VARIANTS | TOTAL_TYPED_POSITIONS |
 |:---------:|:------------:|:----------:|:-------------------:|:---------------------:|
 
 - SAMPLE_ID: The ID of the individual in the VCF file
--  HETEROZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the homozygous form
-
-   in other words... total instances of heterozygous-present variants
+- HETEROZYGOUS: total disease-causing HGMD variants present in the individual in heterozygous form
    calculation: R|A = +1 , A|R = +1  
-   R = Reference Allele (usually depicted as 0)  
-   A = Alternate Allele (usually depicted as 1)
+        R = Reference Allele (usually depicted as 0)  
+        A = Alternate Allele (usually depicted as 1)
 
-- HOMOZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the heterozygous form
-
-   in other words... total instances of homozygous-present variants
+- HOMOZYGOUS: total disease-causing HGMD variants present in the individual in homozygous form
    calculation: A|A = +1  
-   R = Reference Allele (usually depicted as 0)  
-   A = Alternate Allele (usually depicted as 1)
+        R = Reference Allele (usually depicted as 0)  
+        A = Alternate Allele (usually depicted as 1)  
 
 - TOTAL_HGMD_VARIANTS: total number of disease-causing variants present, no matter how they are present
-
-   calculation: R|A = +1 , A|R = +1 , A|A = +2
-   R = Reference Allele (usually depicted as 0)  
-   A = Alternate Allele (usually depicted as 1)
+   calculation: R|A = +1 , A|R = +1 , A|A = +2  
+        R = Reference Allele (usually depicted as 0)  
+        A = Alternate Allele (usually depicted as 1)
 
 - TOTAL_TYPED_POSITIONS: All positions in the VCF file that were typed, per individual
+   calculation: X|X = +2 , X|. = +1 , .|X = +1  
+        X = Anything, except a blank  
 
-   calculation: X|X = +2 , X|. = +1 , .|X = +1
-   X = Anything, except a blank
+### individualsWithDiseaseCausingVariants.pl
 
-#### individualsWithDiseaseCausingVariants.pl
+### snpFrequency_general.pl
 
-#### snpFrequency_general.pl
+### snpFrequency_homozygous.pl
 
-#### snpFrequency_homozygous.pl
+### ontology_snpFreq.pl
 
-#### ontology_snpFreq.pl
-
-#### ontology_chrPos.pl
+### ontology_chrPos.pl
