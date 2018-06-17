@@ -123,17 +123,21 @@ HGMD input file must be in the format depicted in the section above
 
 - SAMPLE_ID: The ID of the individual in the VCF file
 -  HETEROZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the homozygous form
+
 ⋅⋅⋅in other words... total instances of heterozygous-present variants
-⋅⋅⋅calculation: R|A = +1 , A|R = +1
-⋅⋅⋅R = Reference Allele (usually depicted as 0)
+⋅⋅⋅calculation: R|A = +1 , A|R = +1⋅⋅
+⋅⋅⋅R = Reference Allele (usually depicted as 0)⋅⋅
 ⋅⋅⋅A = Alternate Allele (usually depicted as 1)
+
 - HOMOZYGOUS: total disease-causing variants present in the individual and the HGMD that are in the heterozygous form
+
 ⋅⋅⋅in other words... total instances of homozygous-present variants
-⋅⋅⋅calculation: A|A = +1
-⋅⋅⋅R = Reference Allele (usually depicted as 0)
+⋅⋅⋅calculation: A|A = +1⋅⋅
+⋅⋅⋅R = Reference Allele (usually depicted as 0)⋅⋅
 ⋅⋅⋅A = Alternate Allele (usually depicted as 1)
+
 - TOTAL_HGMD_VARIANTS: total number of disease-causing variants present, no matter how they are present
-               calculation: R|A = +1 , A|R = +1 , A|A = +2
+...calculation: R|A = +1 , A|R = +1 , A|A = +2
                            R = Reference Allele (usually depicted as 0)
                            A = Alternate Allele (usually depicted as 1)
 - TOTAL_TYPED_POSITIONS: All positions in the VCF file that were typed, per individual
