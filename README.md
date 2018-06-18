@@ -27,7 +27,7 @@ We had multiVCFs containing data for many 1KGP populations; VCFs were divided in
 
 #### HGMD variants per individual
 ##### Script Used
-snpFreq_perIndividual.pl
+- snpFreq_perIndividual.pl
 ##### Description
 The script counts the number of variants that are present in the HGMD from each individual. The script compares the position of each variant described in the multi-VCF files with the data in the HGMD database. If the disease-causing allele of the variant is present in the individual's genome, it is counted in the following way:
 
@@ -41,21 +41,19 @@ If there is incongruence with the number of typed-positions per individual, the 
 
 #### Individuals with disease causing variants
 ##### Script Used
-individualsWithDiseaseCausingVariants.pl
+- individualsWithDiseaseCausingVariants.pl
 ##### Description
 The script outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is a list of the individuals that have the disease-causing allele of the variant (heterozygous or homozygous).
 
 #### SNP frequency per population
 ##### Scripts Used
-snpFrequency_general.pl
-snpFrequency_homozygous.pl
+- snpFrequency_singlePop_homozygous.pl
+- snpFrequency_joinAll.pl
 ##### Description
-The script counts the number of individuals per populaiton that have the disease-causing allele of the variant present in their genome. The sum is calculated in the following way:
-- Homozygous absent: 0|0 --> +0
-- Heterozygous present: 0|1 or 1|0 --> +1
-- Homozygous present: 1|1 --> +2
+The scripts counts the number of individuals per populaiton that have the disease-causing allele of the variant present in their genome in homozygous form. The sum is calculated in the following way:
+- Homozygous present: 1|1 --> +1
 
-The script outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is sum of the frequency of each variant per population.
+The scripts outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is sum of the frequency of each variant per population.
 
 ### Ontology
 
@@ -64,13 +62,13 @@ An ontology was created by classifying the traits/diseases in the HGMD into hier
 
 #### Ontology Frequency Calculation
 ##### Script Used
-ontology_snpFreq.pl
+- ontology_snpFreq.pl
 ##### Description
 The script first appends the frequency of each trait/disease per population to the ontology, and then sums up the totals per ontology category. The frequency is taken from the output of the snpFrequency.pl script.
 
 #### Ontology Trait/Disease to Geomic Position
 ##### Script Used
-ontology_chrPos.pl
+- ontology_chrPos.pl
 ##### Description
 The script first appends the genomic position of variant associated with every HGMD trait/disease, in the chromosome:position format, and then makes a list of all variants per ontology category.
 
@@ -140,11 +138,83 @@ HGMD input file must be in the format depicted in the section above
         X = Anything, except a blank  
 
 ### individualsWithDiseaseCausingVariants.pl
+```
+./individualsWithDiseaseCausingVariants.pl path/to/file.vcf path/to/outfile.txt path/to/hgmd.txt
+```
 
-### snpFrequency_general.pl
+#### Input
+- VCF file (one population at a time)
+- Outfile name
+- HGMD file
 
-### snpFrequency_homozygous.pl
+#### Output
+| CHROMOSOME | POSITION | RSID | REF | ALT | LIST OF SAMPLE IDS |
+|:----------:|:--------:|:----:|:---:|:---:|:------------------:|
+
+- LIST OF SAMPLE IDS: the list of individuals that have the variant present
+
+### snpFrequency_singlePop.pl
+```
+./snpFrequency_singlePop.pl path/to/file.vcf path/to/outfile.txt path/to/hgmd.txt POPULATION
+```
+
+#### Input
+- VCF file (one population at a time)
+- Outfile name
+- HGMD file
+- POPULATION
+
+#### Output
+| CHROMOSOME | POSITION | RSID | REF | ALT | DISEASE | FREQUENCY |
+|:----------:|:--------:|:----:|:---:|:---:|:-------:|:---------:|
+
+### snpFrequency_joinAll.pl
+```
+./snpFrequency_joinAll.pl path/to/fileList.txt path/to/outfile.txt
+```
+
+#### Input
+- File list: a list of the files containing the results of snpFrequenc_singlePop (including paths)
+- Outfile name
+
+#### Output
+| CHROMOSOME | POSITION | RSID | REF | ALT | DISEASE | POPULATION 1 | POPULATION 2 | ... |
+|:----------:|:--------:|:----:|:---:|:---:|:-------:|:------------:|:------------:|:---:|
+
+- POPULATION X: one column per population, the column contains the frequency of each variant
 
 ### ontology_snpFreq.pl
+```
+./ontology_snpFreq.pl path/to/snpFrequency_joinAll_results.txt path/to/ontology.txt path/to/outfile.txt
+```
+
+#### Input
+- Results of the snpFrequency_joinAll.txt script
+- Ontology text file
+- Outfile name
+
+#### Ouput
+| KEY | DISEASE | POPULATION 1 | POPULAITON 2 | ... |
+|:---:|:-------:|:------------:|:------------:|:---:|
+
+- KEY: The ontology key that corresponds to the disease
+- DISEASE: Disease/category name
+- POPULATION X: Frequency of each population of the ontology disease/category
 
 ### ontology_chrPos.pl
+```
+./ontology_chrPos.pl path/to/snpFrequency_joinAll_results.txt path/to/ontology.txt path/to/outfile.txt
+```
+
+#### Input
+- Results of the snpFrequenct_joinAll.txt script
+- Ontology text file
+- Outfile name
+
+#### Output
+| KEY | DISEASE | CHR:POS |
+|:---:|:-------:|:-------:|
+
+- KEY: The ontology key that corresponds to the disease
+- DISEASE: Disease/category name
+- CHR:POS: Lis of chr:pos that correspond to each disease or disease category in the ontology 
