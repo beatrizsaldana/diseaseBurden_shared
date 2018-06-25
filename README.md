@@ -218,3 +218,26 @@ HGMD input file must be in the format depicted in the section above
 - KEY: The ontology key that corresponds to the disease
 - DISEASE: Disease/category name
 - CHR:POS: Lis of chr:pos that correspond to each disease or disease category in the ontology 
+
+### vcfSubset_snpFreq_perIndividual.pl
+
+This script makes subsets of the VCF with diseases that are only present in the 'Disease' category of the Disease Ontology.
+
+#### Input
+
+#### Output
+
+
+### chrPos_perIndividual_homozygous.pl
+
+This script outputs a list of variants chr:pos that each individual has present in their genome in homozygous form
+
+#### Input
+
+#### Output
+
+
+# Notes
+- Found error in vcfSubset_snpFreq_perIndividual.pl, forgot to add 'last' to loop and so some lines printed twice, this has been fixed but the script has not been run again for the vcf subsets in base_data/VCF_files/subsets/hgmd/
+- make sure to run: ./diseaseBurden_shared/vcfSubset_snpFreq_perIndividual.pl base_data/VCF_files/subsets/hgmd/acb.hgmd.vcf out_data/snpFrequencyPerPop/homozygous/snpFrequency_allPops_homozygous_onlyDiseases.txt acb_hgmdOnlyDiseases.txt for all populations, and for disease risk and disease protection
+- make sure to run: ./diseaseBurden_shared/snpFreq_perIndividual.pl base_data/VCF_files/hgmd_diseasesResistance_subsets/acb_hgmd_protection.vcf base_data/hgmd/hgmd_complete_clean.txt out_data/snpFrequencyPerIndividual/onlyHGMDdiseaseRisk/asc_snpFreqPerIndividual_diseaseProtection.txt with the new vcfs after running the stuff above this, do it for all 20 vcf files
