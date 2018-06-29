@@ -4,7 +4,7 @@
 
 #files
 my $vcf_inputFile = $ARGV[0]; #input VCF file
-my $snpFreq_input = $ARGV[1];
+my $snpFreq_input = $ARGV[1]; #subset of the snpFrequency files containing only entries from the Disease and Disease Risk categories in the ontology
 my $outfile = $ARGV[2]; #output file
 
 my @snpFreq_chr;

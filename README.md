@@ -8,15 +8,19 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 #### HGMD
 ##### Source
 *Stenson, Peter D., et al. "Human gene mutation database (HGMD®): 2003 update." Human mutation 21.6 (2003): 577-581.*
+##### Data Location
+The Human Gene Mutation Database used is located in the genomeTrax mysql database '/data/db/mysql/genomeTrax', and is entered as 'hgmd_2016'.
 ##### Script Used
 - cleanHGMD.pl
 ##### Description
-1. Download data of interest from the HGMD using getHGMD.sql
+1. Download data of interest from the HGMD. Only entries from HG19 and considered of High Confidence were used.
 2. Remove entries that contain indels and entries for the X and Y chromosomes
 
 #### VCF Files (from 1KGP)
 ##### Source
 *Siva, Nayanah. "1000 Genomes project." (2008): 256.*
+##### Data Location
+The VCF files used for this project were located in the '/data/home/data/100gp/vcfgz/' directory in the Jordan Lab 'The Beast' server, and VCF files used were the ones with this title: 'ALL.chr\*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz'.
 ##### Script Used
 SHASHWAT VCF TOOLS THING
 ##### Description
@@ -38,12 +42,17 @@ The script counts the number of variants that are present in the HGMD from each 
 The script outputs one individual per row, with the total sum of disease causing variants present in the individual's genome.
 If there is incongruence with the number of typed-positions per individual, the total sum must be divided by the total-typed positions. We did not have to do that since our data was consistent.
 
-
 #### Individuals with disease causing variants
 ##### Script Used
 - individualsWithDiseaseCausingVariants.pl
 ##### Description
 The script outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is a list of the individuals that have the disease-causing allele of the variant (heterozygous or homozygous).
+
+#### Disease Causing Variants per Individual
+##### Script Used
+- chrPos_perIndividual_homozygous.pl
+###### Description
+This script outputs a list of variants chr:pos that each individual has present in their genome in homozygous form.
 
 #### SNP frequency per population
 ##### Scripts Used
@@ -60,6 +69,12 @@ The scripts outputs all variants present in both the VCF files and the HGMD, one
 #### Ontology Curation
 An ontology was created by classifying the traits/diseases in the HGMD into hierarchical categories, by hand. No script, sorry.
 
+#### Ontology VCF subsets
+##### Script Used
+- vcfSubset_snpFreq_perIndividual.pl
+###### Description
+This script makes subsets of the VCF with diseases that are only present in the 'Disease' category of the Disease Ontology. This is helpful for faster frequency calculations or if we need to re-do the analysis.
+
 #### Ontology Frequency Calculation
 ##### Script Used
 - ontology_snpFreq.pl
@@ -71,6 +86,12 @@ The script first appends the frequency of each trait/disease per population to t
 - ontology_chrPos.pl
 ##### Description
 The script first appends the genomic position of variant associated with every HGMD trait/disease, in the chromosome:position format, and then makes a list of all variants per ontology category.
+
+#### Finding Categories of Interest
+##### Script Used
+- ancestryComparison.pl
+###### Description
+The script compares the results from the ontology_snpFreq.pl script of the ancestral populations, and if there is a significant difference, it will output the category of interest.
 
 ## Script Description
 
@@ -153,6 +174,19 @@ HGMD input file must be in the format depicted in the section above
 
 - LIST OF SAMPLE IDS: the list of individuals that have the variant present
 
+### chrPos_perIndividual_homozygous.pl
+```
+./chrPos_perIndividual_homozygous.pl path/to/vcfFile.vcf path/to/hgmd.txt path/to/outfile.txt
+```
+
+#### Input
+- VCF file
+- HGMD text file
+
+#### Output
+| SAMPLE_ID | LIST_OF_CHR:POS |
+|:---------:|:---------------:|
+
 ### snpFrequency_singlePop.pl
 ```
 ./snpFrequency_singlePop.pl path/to/file.vcf path/to/outfile.txt path/to/hgmd.txt POPULATION
@@ -221,23 +255,14 @@ HGMD input file must be in the format depicted in the section above
 
 ### vcfSubset_snpFreq_perIndividual.pl
 
-This script makes subsets of the VCF with diseases that are only present in the 'Disease' category of the Disease Ontology.
+Before running this script you must make two subsets of the result file of snpFrequency_joinAll.pl script. One subset of the variants that are in the Disease Risk category of the ontology and another for the variants in the Disease Protection category. You can use the result file of the ontology_chrPos.pl script.
 
+```
+./vcfSubset_snpFreq_perIndividual.pl path/to/vcfFile.vcf path/to/snpFrequency_joinAll/subset path/to/outfile.txt
+```
 #### Input
+- VCF file
+- Subset of snpFrequency_joinAll result
 
 #### Output
-
-
-### chrPos_perIndividual_homozygous.pl
-
-This script outputs a list of variants chr:pos that each individual has present in their genome in homozygous form
-
-#### Input
-
-#### Output
-
-
-# Notes
-- Found error in vcfSubset_snpFreq_perIndividual.pl, forgot to add 'last' to loop and so some lines printed twice, this has been fixed but the script has not been run again for the vcf subsets in base_data/VCF_files/subsets/hgmd/
-- make sure to run: ./diseaseBurden_shared/vcfSubset_snpFreq_perIndividual.pl base_data/VCF_files/subsets/hgmd/acb.hgmd.vcf out_data/snpFrequencyPerPop/homozygous/snpFrequency_allPops_homozygous_onlyDiseases.txt acb_hgmdOnlyDiseases.txt for all populations, and for disease risk and disease protection
-- make sure to run: ./diseaseBurden_shared/snpFreq_perIndividual.pl base_data/VCF_files/hgmd_diseasesResistance_subsets/acb_hgmd_protection.vcf base_data/hgmd/hgmd_complete_clean.txt out_data/snpFrequencyPerIndividual/onlyHGMDdiseaseRisk/asc_snpFreqPerIndividual_diseaseProtection.txt with the new vcfs after running the stuff above this, do it for all 20 vcf files
+VCF file containing only entries in the disease ontology Disease categories.
