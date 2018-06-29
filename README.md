@@ -91,7 +91,7 @@ The script first appends the genomic position of variant associated with every H
 ##### Script Used
 - ancestryComparison.pl
 ###### Description
-The script compares the results from the ontology_snpFreq.pl script of the ancestral populations, and if there is a significant difference, it will output the category of interest.
+The script compares the results from the ontology_snpFreq.pl script of the ancestral populations, and if there is a significant difference, it will output the categories of interest. The "significance" parameter is inuted by the user (percent difference). We decided to compare ancestral populations to avoid imposing our hypothesis onto the results.
 
 ## Script Description
 
@@ -266,3 +266,26 @@ Before running this script you must make two subsets of the result file of snpFr
 
 #### Output
 VCF file containing only entries in the disease ontology Disease categories.
+
+
+### ancestryComparison.pl
+
+```
+./diseaseBurden_shared/ancestryComparison.pl path/to/normalized/ontology_snpFreq.txt difference(any number between 0 and 1) path/to/outFile.txt
+```
+
+#### Input
+- Result of the ontology_snpFreq.pl (normalized by population size)
+- desired difference (any number between 0 and 1)
+
+#### Output
+Ontology lines where the ancestry difference is larger than the inputed difference
+
+## Notes
+- for statistical test: consider a two tailed t-test
+- also consider using averages per population instead of sums, we might be able to perform more precise statistical tests if we use all entries
+- make sure everything is currently normalized by number of variants per ontology category and also by popolation size
+- divide raw counts by number of variants, so that each terminal node in the ontology is worth "1" and every category is also then divided by number of varisnts, until everything in the ontology has a max value of 1 per person
+- calculate variance and standard deviation between the individuals of each population
+- then do the two-tailed t-test between the ancestral populations
+- consider regarding the ancestral populations as a single population (for the test) ESN+YRI = AFR  IBS+GBR + EUR
