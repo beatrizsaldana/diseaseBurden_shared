@@ -3,7 +3,7 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 
 ## General Project Protocol
 
-### Data Preparation
+### 1. Data Preparation
 
 #### HGMD
 ##### Source
@@ -27,7 +27,7 @@ SHASHWAT VCF TOOLS THING
 We needed multi-VCF files for the following 1KGP populations: ACB, ASW, CLM, MXL, PEL, PUR, GRB, IBS, ESN, YRI
 We had multiVCFs containing data for many 1KGP populations; VCFs were divided into separate files determined by chromosome.
 
-### Exploratory Analysis
+### 2. Exploratory Analysis
 
 #### HGMD variants per individual
 ##### Script Used
@@ -64,7 +64,7 @@ The scripts counts the number of individuals per populaiton that have the diseas
 
 The scripts outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is sum of the frequency of each variant per population.
 
-### Ontology
+### 3. Ontology
 
 #### Ontology Curation
 An ontology was created by classifying the traits/diseases in the HGMD into hierarchical categories, by hand. No script, sorry.
@@ -87,11 +87,32 @@ The script first appends the frequency of each trait/disease per population to t
 ##### Description
 The script first appends the genomic position of variant associated with every HGMD trait/disease, in the chromosome:position format, and then makes a list of all variants per ontology category.
 
-#### Finding Categories of Interest
+### 4. Ontology Result Analysis
+
+#### Result Normalization
 ##### Script Used
+- ontology_normalize.pl
+##### Description
+The script normalizes the results of ontology_snpFreq.pl by the population size and by the number of SNPs per ontology category.
+
+#### Statistical Analysis (Calculating Z scores)
+##### Script Used
+- ontology_zscores.pl
+##### Description
+The script calculates the z-scores of every ontology category. The population standard deviation is used for this calculation.
+
+#### Finding Categories of Interest
+##### Scripts Used
 - ancestryComparison.pl
+- aswPelComparison.pl
+##### Description
+The scripts compares the results of the ontology based on ancestral populations and admixed populations. of the ancestral populations, and if there is a significant difference, it will output the categories of interest. The "significance" parameter is inuted by the user (percent difference). We decided to compare ancestral populations to avoid imposing our hypothesis onto the results.
+
+#### Making Plots
+##### Script Used
+- ontologyPlots.R
 ###### Description
-The script compares the results from the ontology_snpFreq.pl script of the ancestral populations, and if there is a significant difference, it will output the categories of interest. The "significance" parameter is inuted by the user (percent difference). We decided to compare ancestral populations to avoid imposing our hypothesis onto the results.
+The script generates column (bar) plots for the "categories of interest" in the ontology.
 
 ## Script Description
 
@@ -268,18 +289,25 @@ Before running this script you must make two subsets of the result file of snpFr
 VCF file containing only entries in the disease ontology Disease categories.
 
 
+###
+
 ### ancestryComparison.pl
 
 ```
-./diseaseBurden_shared/ancestryComparison.pl path/to/normalized/ontology_snpFreq.txt difference(any number between 0 and 1) path/to/outFile.txt
+./diseaseBurden_shared/ancestryComparison.pl path/to/normalized/ontology_snpFreq.txt difference path/to/outFile.txt
 ```
 
 #### Input
 - Result of the ontology_snpFreq.pl (normalized by population size)
-- desired difference (any number between 0 and 1)
+- desired difference
 
 #### Output
 Ontology lines where the ancestry difference is larger than the inputed difference
+
+### ontologyPlots.R
+#### Script Notes
+The ontology categories of interest are hard coded in the script.
+
 
 ## Notes
 - for statistical test: consider a two tailed t-test
@@ -289,3 +317,4 @@ Ontology lines where the ancestry difference is larger than the inputed differen
 - calculate variance and standard deviation between the individuals of each population
 - then do the two-tailed t-test between the ancestral populations
 - consider regarding the ancestral populations as a single population (for the test) ESN+YRI = AFR  IBS+GBR + EUR
+
