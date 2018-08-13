@@ -5,15 +5,13 @@ use warnings;
 
 #declaring files
 my $input = $ARGV[0]; #ontology_snpFreq results
-my $percentDifference = $ARGV[1]; #difference (between 0 to 1)
+my $percentDifference = $ARGV[1]; #desired percent difference
 my $outfile = $ARGV[2]; #output
 
 #variables
 my @fullLine;
-my @ESN;
-my @IBS;
-my @GBR;
-my @YRI;
+my @ASW;
+my @PEL;
 my $top;
 
 my $counter = 0;
@@ -34,33 +32,28 @@ while (<FILE>)
         $_ =~ s/\r//g; #remove carriage return
         my @line = split (/\t/,$_); #split line into columns and put into an array called line
 
-        push @ESN, $line[8]; #afro
-        push @IBS, $line[9]; #euro
-        push @GBR, $line[10]; #euro
-        push @YRI, $line[11]; #afro
+        push @ASW, $line[3]; #ASW
+        push @PEL, $line[6]; #PEL
     }
 }
 
-my $ontology_size = scalar @ESN;
+my $ontology_size = scalar @ASW;
 
 open(OUT, "+>", $outfile); #open output file to write in it
 print OUT $top;
 
 for (my $i = 0; $i < $ontology_size; $i++)
 {
-    my $afro_average = ($ESN[$i] + $YRI[$i]) / 2;
-    my $euro_average = ($GBR[$i] + $IBS[$i]) / 2;
-    my $afroEuro_difference = abs($afro_average - $euro_average);
-    my $afroEuro_average = ($afro_average + $euro_average) / 2;
-
-    if ($afroEuro_average == 0)
+   if ($ASW[$i] < 0.01 && $PEL[$i] < 0.01)
     {
-	next;
+        next;
     }
 
-    my $percentDifference_calculated = $afroEuro_difference / $afroEuro_average;
+    my $difference = abs($ASW[$i] - $PEL[$i]);
+    my $average = ($ASW[$i] + $PEL[$i]) / 2;
+    my $percentDifference_calculated = $difference / $average;
 
-    if ($percentDifference_calculated > $percentDifference)
+    if ($percentDifference_calculated >=  $percentDifference)
     {
         print OUT $fullLine[$i];
     }

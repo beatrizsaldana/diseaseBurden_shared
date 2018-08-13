@@ -5,7 +5,7 @@ use warnings;
 
 #declaring files
 my $input = $ARGV[0]; #ontology_snpFreq results
-my $percentDifference = $ARGV[1]; #difference (between 0 to 1)
+my $percentDifference = $ARGV[1]; #desired percent difference
 my $outfile = $ARGV[2]; #output
 
 #variables
@@ -50,13 +50,18 @@ for (my $i = 0; $i < $ontology_size; $i++)
 {
     my $afro_average = ($ESN[$i] + $YRI[$i]) / 2;
     my $euro_average = ($GBR[$i] + $IBS[$i]) / 2;
+
+    if ($afro_average == 0 && $euro_average < 0.05)
+    {
+        next;
+    }
+    if ($euro_average == 0 && $afro_average < 0.05)
+    {
+        next;
+    }
+
     my $afroEuro_difference = abs($afro_average - $euro_average);
     my $afroEuro_average = ($afro_average + $euro_average) / 2;
-
-    if ($afroEuro_average == 0)
-    {
-	next;
-    }
 
     my $percentDifference_calculated = $afroEuro_difference / $afroEuro_average;
 
