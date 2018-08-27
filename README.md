@@ -15,6 +15,9 @@ The Human Gene Mutation Database used is located in the genomeTrax mysql databas
 ##### Description
 1. Download data of interest from the HGMD. Only entries from HG19 and considered of High Confidence were used.
 2. Remove entries that contain indels and entries for the X and Y chromosomes
+ADD FILE PATH OF HGMD
+
+ADD HGMD VCF INTERSECTION FILES AND INSTRUCTIONS AND EVERYTHING
 
 #### VCF Files (from 1KGP)
 ##### Source
@@ -51,7 +54,7 @@ The script outputs all variants present in both the VCF files and the HGMD, one 
 #### Disease Causing Variants per Individual
 ##### Script Used
 - chrPos_perIndividual_homozygous.pl
-###### Description
+##### Description
 This script outputs a list of variants chr:pos that each individual has present in their genome in homozygous form.
 
 #### SNP frequency per population
@@ -111,7 +114,7 @@ The scripts compares the results of the ontology based on ancestral populations 
 #### Making Plots
 ##### Script Used
 - ontologyPlots.R
-###### Description
+##### Description
 The script generates column (bar) plots for the "categories of interest" in the ontology.
 
 ## Script Description
@@ -310,11 +313,12 @@ The ontology categories of interest are hard coded in the script.
 
 
 ## Notes
-- for statistical test: consider a two tailed t-test
-- also consider using averages per population instead of sums, we might be able to perform more precise statistical tests if we use all entries
-- make sure everything is currently normalized by number of variants per ontology category and also by popolation size
-- divide raw counts by number of variants, so that each terminal node in the ontology is worth "1" and every category is also then divided by number of varisnts, until everything in the ontology has a max value of 1 per person
-- calculate variance and standard deviation between the individuals of each population
-- then do the two-tailed t-test between the ancestral populations
-- consider regarding the ancestral populations as a single population (for the test) ESN+YRI = AFR  IBS+GBR + EUR
+- put all of the scripts into a pipeline so that all of this can be done with a single script
+- - - Make all scripts accept a list of vcf files instead of whatever they accept now
+- - - Edit snpFrequency_singlePop.pl so that it does not need POPULATION as input
+- make sure all scripts used are described on README
+- Re-do all of this with the new data (Native American)
+- Create script to find categories of interest at least two nodes above the terminal nodes
 
+ontology enrichment
+hypergeomestric test
