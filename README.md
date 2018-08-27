@@ -15,7 +15,9 @@ The Human Gene Mutation Database used is located in the genomeTrax mysql databas
 ##### Description
 1. Download data of interest from the HGMD. Only entries from HG19 and considered of High Confidence were used.
 2. Remove entries that contain indels and entries for the X and Y chromosomes
-ADD FILE PATH OF HGMD
+##### File Location
+/data/home/bsaldana3/projects/diseaseBurden/base_data/hgmd/hgmd_complete_clean.txt
+File described in Script Description section of README
 
 ADD HGMD VCF INTERSECTION FILES AND INSTRUCTIONS AND EVERYTHING
 
