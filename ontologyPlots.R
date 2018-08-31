@@ -12,6 +12,7 @@ moltenSnpFreq$Groups <- "Undefined"
 moltenSnpFreq[moltenSnpFreq$variable %in% c("ACB", "ASW", "CLM", "MXL", "PEL", "PUR"),]$Groups <- "Admixed"
 moltenSnpFreq[moltenSnpFreq$variable %in% c("YRI", "ESN"),]$Groups <- "African"
 moltenSnpFreq[moltenSnpFreq$variable %in% c("IBS", "GBR"),]$Groups <- "European"
+moltenSnpFreq[moltenSnpFreq$variable %in% c("NTA"),]$Groups <- "Native American"
 
 moltenSnpFreq <- moltenSnpFreq[complete.cases(moltenSnpFreq),]
 
@@ -19,9 +20,7 @@ moltenSnpFreq$Colors <- "#FFFFFF"
 moltenSnpFreq[moltenSnpFreq$Groups=="Admixed",]$Colors <- "green"
 moltenSnpFreq[moltenSnpFreq$Groups=="African",]$Colors <- "blue"
 moltenSnpFreq[moltenSnpFreq$Groups=="European",]$Colors <- "yellow"
-
-
-
+moltenSnpFreq[moltenSnpFreq$Groups=="Native American",]$Colors <- "red"
 
 zScore <- read_delim("out_ontology_snpFreq_popSizeNormalized_snpCountNormalized_zscore.txt", delim = "\t", escape_double = F, trim_ws = T)
 
@@ -31,6 +30,7 @@ moltenzScore$Groups <- "Undefined"
 moltenzScore[moltenzScore$variable %in% c("ACB", "ASW", "CLM", "MXL", "PEL", "PUR"),]$Groups <- "Admixed"
 moltenzScore[moltenzScore$variable %in% c("YRI", "ESN"),]$Groups <- "African"
 moltenzScore[moltenzScore$variable %in% c("IBS", "GBR"),]$Groups <- "European"
+moltenzScore[moltenzScore$variable %in% c("NTA"),]$Groups <- "Native American"
 
 moltenzScore <- moltenzScore[complete.cases(moltenzScore),]
 
@@ -38,6 +38,7 @@ moltenzScore$Colors <- "#FFFFFF"
 moltenzScore[moltenzScore$Groups=="Admixed",]$Colors <- "green"
 moltenzScore[moltenzScore$Groups=="African",]$Colors <- "blue"
 moltenzScore[moltenzScore$Groups=="European",]$Colors <- "orange"
+moltenzScore[moltenzScore$Groups=="Native American",]$Colors <- "red"
 
 # interesting_key <- c("Diseases", "Disease: reduced/decreased risk, protection against, survival", "Fungal infectious diseases", "Herpes simplex", "Hepatitis", "Human immunodeficiency virus infectious disease",   "Skin cancer", )
 

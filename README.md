@@ -19,8 +19,6 @@ The Human Gene Mutation Database used is located in the genomeTrax mysql databas
 /data/home/bsaldana3/projects/diseaseBurden/base_data/hgmd/hgmd_complete_clean.txt
 File described in Script Description section of README
 
-ADD HGMD VCF INTERSECTION FILES AND INSTRUCTIONS AND EVERYTHING
-
 #### VCF Files (from 1KGP)
 ##### Source
 *Siva, Nayanah. "1000 Genomes project." (2008): 256.*
@@ -31,6 +29,14 @@ SHASHWAT VCF TOOLS THING
 ##### Description
 We needed multi-VCF files for the following 1KGP populations: ACB, ASW, CLM, MXL, PEL, PUR, GRB, IBS, ESN, YRI
 We had multiVCFs containing data for many 1KGP populations; VCFs were divided into separate files determined by chromosome.
+
+#### VCF Files (from SGDP)
+##### Source
+##### Data Location
+##### Scripts Used
+- SHASHWAT VCF TOOLS AND HGMD INTERSECT
+- The sample IDs that are consistent in Metadata and VCF file are the ones called 'Illumina_ID', those were extracted with a simple grep/awk command: grep 'America' SGDP_metadata.txt | awk '{print $2}'
+- getSamplesOfInterestVCF.pl
 
 ### 2. Exploratory Analysis
 
@@ -61,7 +67,7 @@ This script outputs a list of variants chr:pos that each individual has present 
 
 #### SNP frequency per population
 ##### Scripts Used
-- snpFrequency_singlePop_homozygous.pl
+- snpFrequency_singlePop.pl
 - snpFrequency_joinAll.pl
 ##### Description
 The scripts counts the number of individuals per populaiton that have the disease-causing allele of the variant present in their genome in homozygous form. The sum is calculated in the following way:
@@ -153,6 +159,17 @@ HGMD input file must be in the format depicted in the section above
 #### Output
 Output will be in the same format but with less lines
 
+### getSamplesOfInterestVCF.pl
+```
+zcat file.vcf.gz | ./getSamplesOfInterestVCF.pl listOfSampleIDs.txt vcf_outfile.txt
+```
+#### Input
+The script will read the output of zcat from the command line, so no need to sirectly input a vcf file.
+You will need to make a list of the sample IDs that correspond to the headder of the VCF file.
+
+#### Output
+A VCF file with only the columns of the samples of interest.
+
 ### snpFreq_perIndividual.pl
 ```
 ./snpFreq_perIndividual.pl /path/to/VCFfile.vcf /path/to/hgmd.txt /path/to/output.txt
@@ -215,22 +232,24 @@ HGMD input file must be in the format depicted in the section above
 
 ### snpFrequency_singlePop.pl
 ```
-./snpFrequency_singlePop.pl path/to/file.vcf path/to/outfile.txt path/to/hgmd.txt POPULATION
+./snpFrequency_singlePop.pl path/to/file.vcf path/to/outfile.txt path/to/hgmd.txt
 ```
 
 #### Input
 - VCF file (one population at a time)
 - Outfile name
 - HGMD file
-- POPULATION
 
 #### Output
 | CHROMOSOME | POSITION | RSID | REF | ALT | DISEASE | FREQUENCY |
 |:----------:|:--------:|:----:|:---:|:---:|:-------:|:---------:|
 
+### getIntersect.pl
+Script to get the intersect of two files in order to be able to join them with the next script.
+
 ### snpFrequency_joinAll.pl
 ```
-./snpFrequency_joinAll.pl path/to/fileList.txt path/to/outfile.txt
+./snpFrequency_joinAll.pl path/to/fileList.txt path/to/VCFintersect.txt path/to/outfile.txt
 ```
 
 #### Input
@@ -321,6 +340,10 @@ The ontology categories of interest are hard coded in the script.
 - make sure all scripts used are described on README
 - Re-do all of this with the new data (Native American)
 - Create script to find categories of interest at least two nodes above the terminal nodes
+
+### Statistical tests Notes
+Use hypergeometric test for intra-population statistical testing, to find ontology categories that are over represented (important) within each population
+Use ANOVA (non parametric) to test inter-population statistical testing, for each ontology category 
 
 ontology enrichment
 hypergeomestric test

@@ -23,8 +23,7 @@ my @esn;
 my @ibs;
 my @gbr;
 my @yri;
-my @cai;
-my @sai;
+my @nta;
 my @diseases_popFreq;
 my @keys;
 my @diseases_ontology;
@@ -44,16 +43,15 @@ while (<FILE1>)
 
     push @acb, $line[6]; #store frequencies for population ACB
     push @asw, $line[7]; #store frequencies for population ASW
-    push @cai, $line[8];
-    push @clm, $line[9]; #store frequencies for population CLM
-    push @esn, $line[10]; #store frequencies for population PUR
-    push @gbr, $line[11]; #store frequencies for population GBR
-    push @ibs, $line[12]; #store frequencies for population IBS
-    push @mxl, $line[13]; #store frequencies for population MXL
+    push @clm, $line[8]; #store frequencies for population CLM
+    push @esn, $line[9]; #store frequencies for population PUR
+    push @gbr, $line[10]; #store frequencies for population GBR
+    push @ibs, $line[11]; #store frequencies for population IBS
+    push @mxl, $line[12]; #store frequencies for population MXL
+    push @nta, $line[13]; #store frequencies for population MXL
     push @pel, $line[14]; #store frequencies for population PEL
     push @pur, $line[15]; #store frequencies for population PUR
-    push @sai, $line[16];
-    push @yri, $line[17]; #store frequencies for population YRI
+    push @yri, $line[16]; #store frequencies for population YRI
     push @diseases_popFreq, $line[5]; #store disease names
 }
 
@@ -92,32 +90,30 @@ for (my $i = 0; $i < $ontology_size; $i++)
             {
                 $population_frequencies[0][$i] = $acb[$j];
                 $population_frequencies[1][$i] = $asw[$j];
-                $population_frequencies[2][$i] = $cai[$j];
-                $population_frequencies[3][$i] = $clm[$j];
-                $population_frequencies[4][$i] = $esn[$j];
-                $population_frequencies[5][$i] = $gbr[$j];
-                $population_frequencies[6][$i] = $ibs[$j];
-                $population_frequencies[7][$i] = $mxl[$j];
+                $population_frequencies[2][$i] = $clm[$j];
+                $population_frequencies[3][$i] = $esn[$j];
+                $population_frequencies[4][$i] = $gbr[$j];
+                $population_frequencies[5][$i] = $ibs[$j];
+                $population_frequencies[6][$i] = $mxl[$j];
+                $population_frequencies[7][$i] = $nta[$j];
                 $population_frequencies[8][$i] = $pel[$j];
                 $population_frequencies[9][$i] = $pur[$j];
-                $population_frequencies[10][$i] = $sai[$j];
-                $population_frequencies[11][$i] = $yri[$j];
+                $population_frequencies[10][$i] = $yri[$j];
                 $disease_checker = 1; #change the checker to 1 in order to avoid replacing frequencies with zero
             }
             else
             {
                 $population_frequencies[0][$i] += $acb[$j];
                 $population_frequencies[1][$i] += $asw[$j];
-                $population_frequencies[2][$i] += $cai[$j];
-                $population_frequencies[3][$i] += $clm[$j];
-                $population_frequencies[4][$i] += $esn[$j];
-                $population_frequencies[5][$i] += $gbr[$j];
-                $population_frequencies[6][$i] += $ibs[$j];
-                $population_frequencies[7][$i] += $mxl[$j];
+                $population_frequencies[2][$i] += $clm[$j];
+                $population_frequencies[3][$i] += $esn[$j];
+                $population_frequencies[4][$i] += $gbr[$j];
+                $population_frequencies[5][$i] += $ibs[$j];
+                $population_frequencies[6][$i] += $mxl[$j];
+                $population_frequencies[7][$i] += $nta[$j];
                 $population_frequencies[8][$i] += $pel[$j];
                 $population_frequencies[9][$i] += $pur[$j];
-                $population_frequencies[10][$i] += $sai[$j];
-                $population_frequencies[11][$i] += $yri[$j];
+                $population_frequencies[10][$i] += $yri[$j];
             }
         }
         else
@@ -139,7 +135,6 @@ for (my $i = 0; $i < $ontology_size; $i++)
         $population_frequencies[8][$i] = 0;
         $population_frequencies[9][$i] = 0;
         $population_frequencies[10][$i] = 0;
-        $population_frequencies[11][$i] = 0;
     }
 }
 
@@ -166,18 +161,17 @@ for (my $i = 0; $i < $ontology_size; $i++)
             $population_frequencies[8][$i] += $population_frequencies[8][$j];
             $population_frequencies[9][$i] += $population_frequencies[9][$j];
             $population_frequencies[10][$i] += $population_frequencies[10][$j];
-            $population_frequencies[11][$i] += $population_frequencies[11][$j];
         }
     }
 }
 
 open(OUT, "+>", $outfile);
 
-print OUT "#KEY\tDISEASE\tACB\tASW\tCAI\tCLM\tESN\tGBR\tIBS\tMXL\tPEL\tPUR\tSAI\tYRI";
+print OUT "#KEY\tDISEASE\tACB\tASW\tCLM\tESN\tGBR\tIBS\tMXL\tNTA\tPEL\tPUR\tYRI";
 
 for (my $i = 0; $i < $ontology_size; $i++)
 {
     print OUT "\n$keys[$i]\t$diseases_ontology[$i]\t$population_frequencies[0][$i]\t$population_frequencies[1][$i]\t";
     print OUT "$population_frequencies[2][$i]\t$population_frequencies[3][$i]\t$population_frequencies[4][$i]\t$population_frequencies[5][$i]\t";
-    print OUT "$population_frequencies[6][$i]\t$population_frequencies[7][$i]\t$population_frequencies[8][$i]\t$population_frequencies[9][$i]\t$population_frequencies[10][$i]\t$population_frequencies[11][$i]";
+    print OUT "$population_frequencies[6][$i]\t$population_frequencies[7][$i]\t$population_frequencies[8][$i]\t$population_frequencies[9][$i]\t$population_frequencies[10][$i]";
 }

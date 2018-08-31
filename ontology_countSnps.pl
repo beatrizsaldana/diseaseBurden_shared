@@ -24,7 +24,7 @@ while (<FILE1>)
     $_ =~ s/\n//g; #remove end line symbol
     $_ =~ s/\r//g; #remove carriage return
     my @line = split (/\t/,$_); #split line into array
-    my $freq_temp = join('\t', $line[6], $line[7], $line[8], $line[9], $line[10], $line[11], $line[12], $line[13], $line[14], $line[15]);
+    my $freq_temp = join('\t', $line[6], $line[7], $line[8], $line[9], $line[10], $line[11], $line[12], $line[13], $line[14], $line[15], $line[16]);
 
     push @freq, $freq_temp; #store pop frequencies
     push @diseases_popFreq, $line[5]; #store disease names
@@ -75,7 +75,7 @@ for (my $i = 0; $i < $ontology_size; $i++)
 
 open(OUT, "+>", $outfile);
 
-print OUT "KEY\tDISEASE\tSNP_COUNT";
+print OUT "#KEY\tDISEASE\tSNP_COUNT";
 
 #go through the whole ontology again in order to sum everything up
 for (my $i = 0; $i < $ontology_size; $i++)

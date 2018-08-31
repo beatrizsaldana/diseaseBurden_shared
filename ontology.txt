@@ -3351,8 +3351,6 @@
 3.20.10. Alternate splicing
 3.20.11. Alternative splicing
 3.20.12. DNA repair rate, association with
-
-
 3.20.13. Increased genomic instability
 3.20.14. Increased transcription
 3.20.15. Increased transcriptional activity

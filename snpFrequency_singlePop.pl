@@ -12,11 +12,10 @@ use warnings;
 my $inFile = $ARGV[0];
 my $outfile = $ARGV[1];
 my $hgmdData = $ARGV[2];
-my $population = $ARGV[3];
 
 open(OUT, "+>", $outfile);
 
-print OUT "CHROMOSOME\tPOSITION\tRSID\tREF\tALT\tDISEASE\t$population";
+print OUT "CHROMOSOME\tPOSITION\tRSID\tREF\tALT\tDISEASE\tFREQUENCY";
 
 #variable declaration
 my @hgmd_chr;
@@ -120,9 +119,9 @@ while (<FILE1>)
                                     
                                     for (my $b = 0; $b < $number_of_individuals; $b++)
                                     { 
-                                        my @block = split (/\|/,$line[$b+9]);
+                                        my @block = split (//,$line[$b+9]);
                                         my $x = $block[0];
-                                        my $y = $block[1];
+                                        my $y = $block[2];
                                         
                                         if ($x == $checker && $y == $checker)
                                         {
@@ -144,9 +143,9 @@ while (<FILE1>)
 
                             for (my $b = 0; $b < $number_of_individuals; $b++)
                             { 
-                                my @block = split (/\|/,$line[$b+9]);
+                                my @block = split (//,$line[$b+9]);
                                 my $x = $block[0];
-                                my $y = $block[1];
+                                my $y = $block[2];
                                 
                                 if ($x == 1 && $y == 1)
                                 {
@@ -162,9 +161,9 @@ while (<FILE1>)
 
                             for (my $b = 0; $b < $number_of_individuals; $b++)
                             {
-                                my @block = split (/\|/,$line[$b+9]);
+                                my @block = split (//,$line[$b+9]);
                                 my $x = $block[0];
-                                my $y = $block[1];
+                                my $y = $block[2];
 
                                 if ($x == 0 && $y == 0)
                                 {

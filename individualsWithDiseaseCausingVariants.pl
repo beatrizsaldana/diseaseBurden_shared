@@ -130,9 +130,9 @@ while (<FILE>)
         {
             for (my $b = 0; $b < $number_of_individuals; $b++)
             { 
-                my @block = split (/\|/,$line[$b+9]);
+                my @block = split (//,$line[$b+9]);
                 my $x = $block[0];
-                my $y = $block[1];
+                my $y = $block[2];
                 
                 if ($x !~ m/[0-9]/ && $y !~ m/[0-9]/)
                 {
@@ -156,9 +156,9 @@ while (<FILE>)
         {
             for (my $b = 0; $b < $number_of_individuals; $b++)
             {
-                my @block = split (/\|/,$line[$b+9]);
+                my @block = split (//,$line[$b+9]);
                 my $x = $block[0];
-                my $y = $block[1];
+                my $y = $block[2];
 
                 if ($x !~ m/[0-9]/ && $y !~ m/[0-9]/)
                 {

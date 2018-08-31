@@ -6,7 +6,8 @@ use strict;
 use warnings;
 
 my $fileList = $ARGV[0]; #list of files with paths of the results of snpFrequency_singlePop.pl
-my $outfile = $ARGV[1];
+my $intersectFile = $ARGV[1]; #file with the intersect of all vcf files
+my $outfile = $ARGV[2];
 
 #variable declaration
 my @filenames;
@@ -29,12 +30,16 @@ while (<FILELIST>)
 
 my $number_of_files = scalar @filenames; #store the number of files in list
 
-open(FILE0, $filenames[0]) or die "Could not open $filenames[0]\n";
-my $temp = <FILE0>;
+open(FILE0, $intersectFile) or die "Could not open $intersectFile\n";
 while (<FILE0>)
 {
-    chomp $_; #remove end line symbol
+    if ($_ =~ m/^#/)
+    {
+    	next;
+    }
+    
     $_ =~ s/\r//g; #remove carriage return just in case
+    $_ =~ s/\n//g; #remove new line character just in case
     my @line = split (/\t/,$_); #split line
 
     push @chr, $line[0];
@@ -45,11 +50,11 @@ while (<FILE0>)
     push @dis, $line[5];
 }
 
-my $length_of_file = scalar @dis;
+my $length_of_intersect = scalar @dis;
 
-for (my $i = 0; $i < $number_of_files; $i++)
+for (my $i = 0; $i < $length_of_intersect; $i++)
 {
-	for (my $j = 0; $j < $length_of_file; $j++)
+	for (my $j = 0; $j < $number_of_files; $j++)
 	{
 		$frequencies[$i][$j] = 0;
 	}
@@ -58,35 +63,75 @@ for (my $i = 0; $i < $number_of_files; $i++)
 for (my $i = 0; $i < $number_of_files; $i++)
 {
 	my $variant_count = 0;
-	open(FILE1, $filenames[$i]) or die "Could not open $filenames[0]\n";
+
+    my $popName = $filenames[$i];
+    $popName =~ s/snpFreq_//g; #remove snpFreq_ from pop name
+    $popName =~ s/.txt//g; #remove .txt from pop name
+
+    push @populations, $popName;
+
+	open(FILE1, $filenames[$i]) or die "Could not open $filenames[$i]\n";
 	while (<FILE1>)
 	{
+	    if ($_ =~ m/^CHROMOSOME/)
+    	{
+    		next;
+    	}
+
 	    $_ =~ s/\n//g; #remove end line symbol
 	    $_ =~ s/\r//g; #remove carriage return just in case
 	    my @line = split (/\t/,$_); #split line
 
-	    if ($_ !~ m/^[0-9]/)
-	    {
-	    	push @populations, $line[6];
-	    }
-	    else
-	    {
-	    	$frequencies[$i][$variant_count] = $line[6];
-	    	$variant_count+=1
-	    }
+	    for (my $j = 0; $j < $length_of_intersect; $j++)
+		{
+			if ($line[0] > $chr[$j])
+			{
+				next;
+			}
+			elsif ($line[0] < $chr[$j])
+			{
+				last;
+			}
+			elsif ($line[0] == $chr[$j])
+			{
+				if ($line[1] > $pos[$j])
+				{
+					next;
+				}
+				elsif ($line[1] < $pos[$j])
+				{
+					last;
+				}
+				elsif ($line[1] == $pos[$j])
+				{
+					if ($line[3] eq $ref[$j] && $line[4] eq $alt[$j])
+					{
+						$frequencies[$i][$j] = $line[6];
+					}
+					elsif ($ref[$j] eq $line[4] && $alt[$j] eq $line[3])
+					{
+						$frequencies[$i][$j] = $line[6];
+					}
+					else
+					{
+						next;
+					}
+				}
+			}
+		}
 	}
 }
 
 open(OUT, "+>", $outfile);
 
-print OUT "CHROMOSOME\tPOSITION\tRSID\tREF\tALT\tDISEASE";
+print OUT "#CHROMOSOME\tPOSITION\tRSID\tREF\tALT\tDISEASE";
 
 for (my $i = 0; $i < $number_of_files; $i++)
 {
 	print OUT "\t$populations[$i]";
 }
 
-for (my $j = 0; $j < $length_of_file; $j++)
+for (my $j = 0; $j < $length_of_intersect; $j++)
 {
     print OUT "\n$chr[$j]\t$pos[$j]\t$rsid[$j]\t$ref[$j]\t$alt[$j]\t$dis[$j]";
     for (my $i = 0; $i < $number_of_files; $i++)
