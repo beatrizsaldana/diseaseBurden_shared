@@ -12,9 +12,11 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 The Human Gene Mutation Database used is located in the genomeTrax mysql database '/data/db/mysql/genomeTrax', and is entered as 'hgmd_2016'.
 ##### Script Used
 - cleanHGMD.pl
+- awk 'BEGIN {FS = "\t"}{IGNORECASE = 1}; {if($9 ~ /autosomal recessive/ && $7 ~ /DM/ && $8 ~ /[0-9]/ && $8 >= 0.15){print $0}}' hgmd.txt > hgmd_subset.txt
 ##### Description
 1. Download data of interest from the HGMD. Only entries from HG19 and considered of High Confidence were used.
-2. Remove entries that contain indels and entries for the X and Y chromosomes
+2. Remove entries that contain indels and entries for the X and Y chromosomes, and removes all duplicated lines.
+3. Make subset of interest: polyPhen2 score > 0.15, variant Type = DM, and mode of inheritance must be autosomal recessive 
 ##### File Location
 /data/home/bsaldana3/projects/diseaseBurden/base_data/hgmd/hgmd_complete_clean.txt
 File described in Script Description section of README
@@ -149,6 +151,8 @@ INTO OUTFILE '/path/to/hgmd.txt';
 |chr1 | 12059087 | rs28940295 | C | G | Charcot-Marie-Tooth disease 2a|
 | ... | ... | ... | ... | ... | ... |
 
+#### Notes
+Make a new script that includes hgmd_2016.variantType, dbnsfp.polyPhen_score, and orpha.inheritance. And make the script also filter out what we do not want (variantType=DM, polyPhen_score>0.15, inheritance=autosomal recessive). 
 
 ### cleanHGMD.pl
 ```

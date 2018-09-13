@@ -315,10 +315,8 @@ open(OUT, "+>", $outfile);
 
 #write to file
 print OUT "###INPUT FILE NAME: $vcf_inputFile";
-print OUT "\n";
 print OUT "\n##Heterozygous: Total HGMD variants present in heterozygous form";
 print OUT "\n##Homozygous: Total HGMD variants present in homozygous form (total instances of homozygosity)";
-print OUT "\n";
 print OUT "\n#SAMPLE_ID\tHETEROZYGOUS\tHOMOZYGOUS\tTOTAL_HGMD_VARIANTS\tTOTAL_TYPED_POSITIONS";
 
 #print out the totals per person
