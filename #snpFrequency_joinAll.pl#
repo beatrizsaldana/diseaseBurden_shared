@@ -62,7 +62,7 @@ for (my $i = 0; $i < $number_of_files; $i++)
 	my $variant_count = 0;
 
     my $popName = $filenames[$i];
-    $popName =~ s/_snpFrequencyPerPop_strictHGMD.txt//g; #remove snpFreq_ from pop name
+	$popName =~ s/snpFreqPerIndividual_hgmdStrict_//g; #remove snpFreq_ from pop name
 
     push @populations, $popName;
 

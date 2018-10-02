@@ -23,7 +23,7 @@ print OUT "#SAMPLEID\tHOMOZYGOUS\tPOPULATION\tGROUP\tCOLOR";
 for (my $i = 0; $i < scalar @listOfFiles; $i++)
 {
 	my @pop = split (/_/, $listOfFiles[$i]);
-	my $population = uc $pop[2];
+	my $population = uc $pop[3];
 	$population =~ s/\.TXT//g;
 	my $group;
 	my $color;

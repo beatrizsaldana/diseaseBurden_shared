@@ -24,7 +24,7 @@ while (<FILE1>)
     $_ =~ s/\n//g; #remove end line symbol if there is one
     $_ =~ s/\r//g; #remove carriage return if there is one
     
-    @sampleIDarray = split (/\t/,$_); #array of sample IDs
+    push @sampleIDarray, $_;#array of sample IDs
 }
 
 my $sampleIDarrayLength = scalar @sampleIDarray;
