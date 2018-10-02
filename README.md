@@ -5,10 +5,10 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 
 |-- README.md   # Document you are currently reading, describes all of the scripts in the directory
 |-- admixtureEntropy  # Directory containing all scripts used for Admixture Entropy analysis
-    |-- calculateAdmixtureEntropy.pl
-    |-- calculateAdmixtureEntropy_unk.pl
+  |-- calculateAdmixtureEntropy.pl
+  |-- calculateAdmixtureEntropy_unk.pl
 |-- autozygosity  # Directory containing all scripts used for autozygosity analysis
-    |-- roh.pl
+  |-- roh.pl
 |-- data_handling     # Directory containing the scripts associated with data preparation
   |-- data_cleaning   # Directory containing all scripts used to clean data (mostly the HGMD)
     |-- cleanHGMD.pl
@@ -24,7 +24,7 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 |-- ontology # Directory containing all scripts associated with the ontology
   |-- ontology_chrPos.pl
   |-- ontology_countSnps.pl
-  |-- ontology_normalize.pl
+  |-- ontology_normalize.pl=
   |-- ontology_snpFreq_nta.pl
   |-- ontology_snpFreq.pl
   |-- ontology.txt
