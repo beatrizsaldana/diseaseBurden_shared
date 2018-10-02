@@ -1,7 +1,68 @@
 # Effect of Ancestry and Admixture on Autozygosity and the Burden of Inheritable Disease
 The purpose of this project is to understand the effect of ancestry and admixture on autozygosity and disease burden. This is done by analyzing the distribution of disease causing variants in admixed Latin American Populations.
 
+## Directory Structure
+
+├── README.md   # Document you are currently reading, describes all of the scripts in the directory
+├── admixtureEntropy  # Directory containing all scripts used for Admixture Entropy analysis
+    ├── calculateAdmixtureEntropy.pl
+    ├── calculateAdmixtureEntropy_unk.pl
+├── autozygosity  # Directory containing all scripts used for autozygosity analysis
+    ├── roh.pl
+├── data_handling     # Directory containing the scripts associated with data preparation
+  ├── data_cleaning   # Directory containing all scripts used to clean data (mostly the HGMD)
+    ├── cleanHGMD.pl
+  ├── data_merging  # Directory containing all scripts used to merge data
+    ├── addPop.pl
+    ├── mergeHGMD.pl
+  ├── data_subsets     # Directory containing all scripts used to make subsets (VCF and HGMD)
+    ├── getHgmdSubset.pl
+    ├── getSamplesOfInterestVCF.pl
+    ├── hgmdSubset.pl
+    ├── makeVCFsubsets.pl
+    ├── vcfSubset_snpFreq_perIndividual.pl
+├── ontology # Directory containing all scripts associated with the ontology
+  ├── ontology_chrPos.pl
+  ├── ontology_countSnps.pl
+  ├── ontology_normalize.pl
+  ├── ontology_snpFreq_nta.pl
+  ├── ontology_snpFreq.pl
+  ├── ontology.txt
+  ├── ontology_zscores.pl
+  ├── resultAnalysis     # Directory containing all scripts used to analyze the results of other ontology scripts (usually sctipts to find interesting ontology categories)
+    ├── ancestryComparison.pl
+    ├── aswPelComparison.pl
+├── plots # Directory containing all scripts used to make plots
+  ├── generatePlots_boxplot.R
+  ├── ontologyPlots.R
+├── snpFrequency # Directory containing all scripts associated with the calculation of SNP Frequencies
+  ├── individualsWithDiseaseCausingVariants.pl
+  ├── snpFrequency_perIndividual  # Directory containing all scripts used to calculate the SNP Frequency for each individual
+    ├── chrPos_perIndividual_homozygous.pl
+    ├── snpFreqPerIndividual_forPlot.pl
+    ├── snpFreq_perIndividual.pl
+  ├── snpFrequency_perPopulation  # Directory containing all scripts used to calculate the SNP Frequency for each population
+    ├── getIntersect.pl
+    ├── snpFrequency_joinAll.pl
+    ├── snpFrequency_singlePop.pl
+
+## Important Notes
+This project has gone through various phases and at the moment some of these scripts might seem incompatible, I am currently working on making everything uniform with a single multi VCF as input.
+A pipeline will be published on this repository soon.
+Most scripts are described in the Script Description part of the README, those that are not will be described soon (they should all be commented).
+
+### Acronyms
+1KGP - 1000 Genomes Project
+HGMD - Human Gene Mutation Database
+NROH - Number of Runs Of Homozygosity
+ROH - Runs Of Homozygosity
+SGDP - Simons Genome Diversity Project
+SROH - Sum Of Runs of Homozygosity
+VCF -  Variant Calling Format
+
 ## General Project Protocol
+
+All scripts are thoroughly described in the **Script Description** section of the README. This section explains the general process of the analysis
 
 ### 1. Data Preparation
 
@@ -19,41 +80,64 @@ The Human Gene Mutation Database used is located in the genomeTrax mysql databas
 3. Make subset of interest: polyPhen2 score > 0.15, variant Type = DM, and mode of inheritance must be autosomal recessive 
 ##### File Location
 /data/home/bsaldana3/projects/diseaseBurden/base_data/hgmd/hgmd_complete_clean.txt
-File described in Script Description section of README
+#### Notes
+The subset with polyphen2 scores, variant type, and autsomal recessive was too stringent, at the moment we are only using variant Type = DM and and mode of inheritance must be autosomal recessive.
+More details about the SQL query and output file are given in the Script Description section of README
 
-#### VCF Files (from 1KGP)
+#### VCF Files (from 1KGP and SGDP)
 ##### Source
 *Siva, Nayanah. "1000 Genomes project." (2008): 256.*
+*Mallick, Swapan, et al. "The Simons genome diversity project: 300 genomes from 142 diverse populations." Nature 538.7624 (2016): 201.*
 ##### Data Location
-The VCF files used for this project were located in the '/data/home/data/100gp/vcfgz/' directory in the Jordan Lab 'The Beast' server, and VCF files used were the ones with this title: 'ALL.chr\*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz'.
+- The VCF files from the 1KGP used for this project were located in the '/data/home/data/100gp/vcfgz/' directory in the Jordan Lab 'The Beast' server, and VCF files used were the ones with this title: 'ALL.chr\*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz'.
+- The VCF file from the SGDP used for this project was located in the '/data/shashwat/SGDP_data/' directory in the Jordan Lab 'The Beast' server, and VCF files used were the ones with this title: 'mergedSimple_sgdp.vcf.gz'.
 ##### Script Used
-SHASHWAT VCF TOOLS THING
+The initial VCF files contained all 1KGP individuals and were divided into different chromosomes. So I made a single VCF with only the samples of interest.
+- getSamplesOfInterestVCF.pl # To make subsets from Chromosome separated multi VCFs
+- cat # concatenate results from getSamplesOfInterestVCF.pl
 ##### Description
 We needed multi-VCF files for the following 1KGP populations: ACB, ASW, CLM, MXL, PEL, PUR, GRB, IBS, ESN, YRI
-We had multiVCFs containing data for many 1KGP populations; VCFs were divided into separate files determined by chromosome.
+Ideally there should only be one VCF file containing all samples of interest. Currenly some scripts work with multiple files, others with a single file.
 
-#### VCF Files (from SGDP)
-##### Source
-##### Data Location
-##### Scripts Used
-- SHASHWAT VCF TOOLS AND HGMD INTERSECT
-- The sample IDs that are consistent in Metadata and VCF file are the ones called 'Illumina_ID', those were extracted with a simple grep/awk command: grep 'America' SGDP_metadata.txt | awk '{print $2}'
-- getSamplesOfInterestVCF.pl
+### 2. Ancestry, Admixture, and Autozygosity
 
-### 2. Exploratory Analysis
+#### Ancestral Fractions
+This part of the project was done by Andrew Conley.
+
+#### Admixture Entropy
+##### Script Used
+- calculateAdmixtureEntropy.pl
+- calculateAdmixtureEntropy_unk.pl
+##### Description
+The script calculates de admixture entropy of all individuals using the following formula: Admixture Entropy = - \sum f(a) ln[a(a)]
+calculateAdmixtureEntropy_unk.pl is the same as calculateAdmixtureEntropy.pl but takes the Unknown Ancestry percentage into account when calculating the admixture entropy.
+
+#### Autozygosity
+##### Script Used
+- plink --vcf path/to/vcfFile.vcf --homozyg
+- akw 'BEGIN{OFS="\t"}{print $2, $7, $8}' plink.hom
+- roh.pl
+##### Description
+Plink is used to calculate the Runs of Homozygosity from a vcf file. The plink output file sometimes is missing fields, so the awk command simply gets the fields needed for NROH and SROH analysis, so that the roh.pl script does not have to account for missing fields. roh.pl calculates the NROH and SROH per individual.
+
+### 3. Disease Burden
 
 #### HGMD variants per individual
 ##### Script Used
 - snpFreq_perIndividual.pl
+- snpFreqPerIndividual_forPlot.pl
+- generatePlots_boxplots.R
 ##### Description
 The script counts the number of variants that are present in the HGMD from each individual. The script compares the position of each variant described in the multi-VCF files with the data in the HGMD database. If the disease-causing allele of the variant is present in the individual's genome, it is counted in the following way:
 
 - Homozygous absent: 0|0 --> +0
-- Heterozygous present: 0|1 or 1|0 --> +1
-- Homozygous present: 1|1 --> +2
+- Heterozygous present: 0|1 or 1|0 --> +0
+- Homozygous present: 1|1 --> +1
 
 The script outputs one individual per row, with the total sum of disease causing variants present in the individual's genome.
-If there is incongruence with the number of typed-positions per individual, the total sum must be divided by the total-typed positions. We did not have to do that since our data was consistent.
+If there is incongruence with the number of typed-positions per individual, the total sum must be divided by the total-typed positions. We did not have to do that since our data was consistent and used vcf subsets.
+##### Notes
+Older versions of the script calculated Homozygous present as (+2), and Heterozygous present as (+1). Look at the last for loop to check if the variable $homozygous is being divided by 2 (as is should be). snpFreqPerIndividual_forPlot.pl simply organizes the data in a way that makes it easier to make the type of plot that we wanted.
 
 #### Individuals with disease causing variants
 ##### Script Used
@@ -65,19 +149,21 @@ The script outputs all variants present in both the VCF files and the HGMD, one 
 ##### Script Used
 - chrPos_perIndividual_homozygous.pl
 ##### Description
-This script outputs a list of variants chr:pos that each individual has present in their genome in homozygous form.
+This script outputs a list of variants chr:pos that each individual has present in their genome in homozygous form. Used for making subsets in the past, this script is no longer used, but I have kept it incase we need this information.
 
-#### SNP frequency per population
+#### SNP Frequency per Population
 ##### Scripts Used
 - snpFrequency_singlePop.pl
+- getIntersect.pl
 - snpFrequency_joinAll.pl
 ##### Description
-The scripts counts the number of individuals per populaiton that have the disease-causing allele of the variant present in their genome in homozygous form. The sum is calculated in the following way:
+The snpFrequency_singlePop.pl scripts counts the number of individuals per populaiton that have the disease-causing allele of the variant present in their genome in homozygous form. The sum is calculated in the following way:
 - Homozygous present: 1|1 --> +1
-
 The scripts outputs all variants present in both the VCF files and the HGMD, one variant per row, and next to the variant information is sum of the frequency of each variant per population.
+##### Notes
+This used to be a single script. But since we are using data from the 1KGP and SGDP we wanted to avoid accidentally counting extra variants for the different populations.
 
-### 3. Ontology
+### 4. Ontology
 
 #### Ontology Curation
 An ontology was created by classifying the traits/diseases in the HGMD into hierarchical categories, by hand. No script, sorry.
@@ -86,7 +172,7 @@ An ontology was created by classifying the traits/diseases in the HGMD into hier
 ##### Script Used
 - vcfSubset_snpFreq_perIndividual.pl
 ###### Description
-This script makes subsets of the VCF with diseases that are only present in the 'Disease' category of the Disease Ontology. This is helpful for faster frequency calculations or if we need to re-do the analysis.
+This script makes subsets of the VCF with diseases that are only present in the 'Disease Risk' category of the Disease Ontology or 'Disease Protection' category of the Disease Ontology. This is helpful for faster frequency calculations or if we need to re-do the analysis.
 
 #### Ontology Frequency Calculation
 ##### Script Used
@@ -100,7 +186,7 @@ The script first appends the frequency of each trait/disease per population to t
 ##### Description
 The script first appends the genomic position of variant associated with every HGMD trait/disease, in the chromosome:position format, and then makes a list of all variants per ontology category.
 
-### 4. Ontology Result Analysis
+### 5. Ontology Result Analysis
 
 #### Result Normalization
 ##### Script Used
@@ -132,27 +218,29 @@ The script generates column (bar) plots for the "categories of interest" in the 
 ### Get HGMD
 ```sql
 SELECT
-	ngs_feature_2016.chromosome,
-	ngs_feature_2016.feature_start,
-	ngs_feature_2016.rsid,
-	hgmd_2016.ref, hgmd_2016.alt,
-	hgmd_2016.disease
+  ngs_feature_2016.chromosome,
+  ngs_feature_2016.feature_start,
+  ngs_feature_2016.rsid,
+  hgmd_2016.ref,
+  hgmd_2016.alt,
+  hgmd_2016.disease,
+  hgmd_2016.variantType,
+  dbnsfp.dbNSFP_Polyphen2_score,
+  orpha.orpha_inheritance
 FROM ngs_feature_2016
 INNER JOIN hgmd_2016 ON ngs_feature_2016.ngs_feature_no=hgmd_2016.feature_no
+INNER JOIN dbnsfp ON ngs_feature_2016.ngs_feature_no=dbnsfp.feature_no
+INNER JOIN orpha ON hgmd_2016.ensembl=orpha.ensembl
 WHERE ngs_feature_2016.genome='hg19'
 AND hgmd_2016.confidence='high'
-INTO OUTFILE '/path/to/hgmd.txt';
+INTO OUTFILE 'path/to/hgmd.txt';
 ```
 #### Output
-|Chromosome | Position | RSID | Ref | Alt | Disease/Trait|
-|:---------:|:--------:|:----:|:---:|:---:|:------------:|
-|chr1 | 12059084 | rs373107074 | C | T | Charcot-Marie-Tooth disease 2a|
-|chr1 | 12059085 | rs140234726 | G | A | Charcot-Marie-Tooth disease 2a|
-|chr1 | 12059087 | rs28940295 | C | G | Charcot-Marie-Tooth disease 2a|
-| ... | ... | ... | ... | ... | ... |
+|Chromosome | Position | RSID | Ref | Alt | Disease/Trait | variantType | PolyPhen2_score | mode_of_inheritance |
+|:---------:|:--------:|:----:|:---:|:---:|:-------------:|:-----------:|:---------------:|:-------------------:|
 
 #### Notes
-Make a new script that includes hgmd_2016.variantType, dbnsfp.polyPhen_score, and orpha.inheritance. And make the script also filter out what we do not want (variantType=DM, polyPhen_score>0.15, inheritance=autosomal recessive). 
+You can filter out what you do not want (variantType=DM, polyPhen_score>0.15, inheritance=autosomal recessive) with an awk command.
 
 ### cleanHGMD.pl
 ```
@@ -337,17 +425,28 @@ Ontology lines where the ancestry difference is larger than the inputed differen
 The ontology categories of interest are hard coded in the script.
 
 
-## Notes
+## Notes for Myself
 - put all of the scripts into a pipeline so that all of this can be done with a single script
 - - - Make all scripts accept a list of vcf files instead of whatever they accept now
-- - - Edit snpFrequency_singlePop.pl so that it does not need POPULATION as input
+- - - Edit snpFrequency_singlePop.pl so that it does not need POPULATION as input, get it from the name of the file like all the other scripts do
 - make sure all scripts used are described on README
-- Re-do all of this with the new data (Native American)
 - Create script to find categories of interest at least two nodes above the terminal nodes
 
 ### Statistical tests Notes
-Use hypergeometric test for intra-population statistical testing, to find ontology categories that are over represented (important) within each population
-Use ANOVA (non parametric) to test inter-population statistical testing, for each ontology category 
+Use ANOVA to calculate F and p value for the boxplots
+Make new PCA plots for all populations (ancestral frations and admixture entropy)
+Make a PCA plot to make sure that I divided the Native American individuals into genetic groups and not just geographical groups
+Find the regression models that fit:
+  - SROH and NROH vs Admixture Entropy
+  - SROH and NROH vs African Ancestral Fraction
+  - SROH and NROH vs African European Fraction
+  - SROH and NROH vs African Native American Fraction
+Make barplots with the following description
+  - y axis is the \beta value (calculated from regression models)
+  - x axis contains two bars per Ancestral Fraction / Admixture entropy
+    - bar 1: NROH
+    - bar 2: SROH
+  Hopefully this will verify that we should be using SROH for autozygosity analysis instead of NROH
 
-ontology enrichment
-hypergeomestric test
+What statystical test should I use for the Ontology categories? Consider hypergeometric.
+
