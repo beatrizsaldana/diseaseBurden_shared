@@ -2,50 +2,49 @@
 The purpose of this project is to understand the effect of ancestry and admixture on autozygosity and disease burden. This is done by analyzing the distribution of disease causing variants in admixed Latin American Populations.
 
 ## Directory Structure
-
-|-- README.md   # Document you are currently reading, describes all of the scripts in the directory
-|-- admixtureEntropy  # Directory containing all scripts used for Admixture Entropy analysis
-  |-- calculateAdmixtureEntropy.pl
-  |-- calculateAdmixtureEntropy_unk.pl
-|-- autozygosity  # Directory containing all scripts used for autozygosity analysis
-  |-- roh.pl
-|-- data_handling     # Directory containing the scripts associated with data preparation
-  |-- data_cleaning   # Directory containing all scripts used to clean data (mostly the HGMD)
-    |-- cleanHGMD.pl
-  |-- data_merging  # Directory containing all scripts used to merge data
-    |-- addPop.pl
-    |-- mergeHGMD.pl
-  |-- data_subsets     # Directory containing all scripts used to make subsets (VCF and HGMD)
-    |-- getHgmdSubset.pl
-    |-- getSamplesOfInterestVCF.pl
-    |-- hgmdSubset.pl
-    |-- makeVCFsubsets.pl
-    |-- vcfSubset_snpFreq_perIndividual.pl
-|-- ontology # Directory containing all scripts associated with the ontology
-  |-- ontology_chrPos.pl
-  |-- ontology_countSnps.pl
-  |-- ontology_normalize.pl=
-  |-- ontology_snpFreq_nta.pl
-  |-- ontology_snpFreq.pl
-  |-- ontology.txt
-  |-- ontology_zscores.pl
-  |-- resultAnalysis     # Directory containing all scripts used to analyze the results of other ontology scripts (usually sctipts to find interesting ontology categories)
-    |-- ancestryComparison.pl
-    |-- aswPelComparison.pl
-|-- plots # Directory containing all scripts used to make plots
-  |-- generatePlots_boxplot.R
-  |-- ontologyPlots.R
-|-- snpFrequency # Directory containing all scripts associated with the calculation of SNP Frequencies
-  |-- individualsWithDiseaseCausingVariants.pl
-  |-- snpFrequency_perIndividual  # Directory containing all scripts used to calculate the SNP Frequency for each individual
-    |-- chrPos_perIndividual_homozygous.pl
-    |-- snpFreqPerIndividual_forPlot.pl
-    |-- snpFreq_perIndividual.pl
-  |-- snpFrequency_perPopulation  # Directory containing all scripts used to calculate the SNP Frequency for each population
-    |-- getIntersect.pl
-    |-- snpFrequency_joinAll.pl
-    |-- snpFrequency_singlePop.pl
-
+```
+├── README.md
+    ├── calculateAdmixtureEntropy.pl
+    ├── calculateAdmixtureEntropy_unk.pl
+├── autozygosity
+    ├── roh.pl
+├── data_handling
+    ├── data_cleaning
+        ├── cleanHGMD.pl
+    ├── data_merging
+        ├── addPop.pl
+        ├── mergeHGMD.pl
+    ├── data_subsets
+        ├── getHgmdSubset.pl
+        ├── getSamplesOfInterestVCF.pl
+        ├── hgmdSubset.pl
+        ├── makeVCFsubsets.pl
+        ├── vcfSubset_snpFreq_perIndividual.pl
+├── ontology
+    ├── ontology_chrPos.pl
+    ├── ontology_countSnps.pl
+    ├── ontology_normalize.pl=
+    ├── ontology_snpFreq_nta.pl
+    ├── ontology_snpFreq.pl
+    ├── ontology.txt
+    ├── ontology_zscores.pl
+    ├── resultAnalysis
+        ├── ancestryComparison.pl
+        ├── aswPelComparison.pl
+├── plots
+    ├── generatePlots_boxplot.R
+    ├── ontologyPlots.R
+├── snpFrequency
+    ├── individualsWithDiseaseCausingVariants.pl
+    ├── snpFrequency_perIndividual
+        ├── chrPos_perIndividual_homozygous.pl
+        ├── snpFreqPerIndividual_forPlot.pl
+        ├── snpFreq_perIndividual.pl
+    ├── snpFrequency_perPopulation
+        ├── getIntersect.pl
+        ├── snpFrequency_joinAll.pl
+        ├── snpFrequency_singlePop.pl
+```
 ## Important Notes
 This project has gone through various phases and at the moment some of these scripts might seem incompatible, I am currently working on making everything uniform with a single multi VCF as input.
 A pipeline will be published on this repository soon.
@@ -109,7 +108,7 @@ This part of the project was done by Andrew Conley.
 - calculateAdmixtureEntropy.pl
 - calculateAdmixtureEntropy_unk.pl
 ##### Description
-The script calculates de admixture entropy of all individuals using the following formula: Admixture Entropy = - \sum f(a) ln[a(a)]
+The script calculates de admixture entropy of all individuals using the following formula: $Admixture Entropy=-\sum f(a) ln(f(a))$
 calculateAdmixtureEntropy_unk.pl is the same as calculateAdmixtureEntropy.pl but takes the Unknown Ancestry percentage into account when calculating the admixture entropy.
 
 #### Autozygosity
@@ -449,4 +448,3 @@ Make barplots with the following description
   Hopefully this will verify that we should be using SROH for autozygosity analysis instead of NROH
 
 What statystical test should I use for the Ontology categories? Consider hypergeometric.
-
