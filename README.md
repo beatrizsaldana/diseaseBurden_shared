@@ -4,23 +4,24 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 ## Directory Structure
 ```
 ├── README.md
+├── admixtureEntropy/    
     ├── calculateAdmixtureEntropy.pl
     ├── calculateAdmixtureEntropy_unk.pl
-├── autozygosity
+├── autozygosity/
     ├── roh.pl
-├── data_handling
-    ├── data_cleaning
+├── data_handling/
+    ├── data_cleaning/
         ├── cleanHGMD.pl
-    ├── data_merging
+    ├── data_merging/
         ├── addPop.pl
         ├── mergeHGMD.pl
-    ├── data_subsets
+    ├── data_subsets/
         ├── getHgmdSubset.pl
         ├── getSamplesOfInterestVCF.pl
         ├── hgmdSubset.pl
         ├── makeVCFsubsets.pl
         ├── vcfSubset_snpFreq_perIndividual.pl
-├── ontology
+├── ontology/
     ├── ontology_chrPos.pl
     ├── ontology_countSnps.pl
     ├── ontology_normalize.pl=
@@ -28,19 +29,19 @@ The purpose of this project is to understand the effect of ancestry and admixtur
     ├── ontology_snpFreq.pl
     ├── ontology.txt
     ├── ontology_zscores.pl
-    ├── resultAnalysis
+    ├── resultAnalysis/
         ├── ancestryComparison.pl
         ├── aswPelComparison.pl
-├── plots
+├── plots/
     ├── generatePlots_boxplot.R
     ├── ontologyPlots.R
-├── snpFrequency
+├── snpFrequency/
     ├── individualsWithDiseaseCausingVariants.pl
-    ├── snpFrequency_perIndividual
+    ├── snpFrequency_perIndividual/
         ├── chrPos_perIndividual_homozygous.pl
         ├── snpFreqPerIndividual_forPlot.pl
         ├── snpFreq_perIndividual.pl
-    ├── snpFrequency_perPopulation
+    ├── snpFrequency_perPopulation/
         ├── getIntersect.pl
         ├── snpFrequency_joinAll.pl
         ├── snpFrequency_singlePop.pl
