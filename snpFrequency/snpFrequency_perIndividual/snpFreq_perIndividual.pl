@@ -83,12 +83,12 @@ while (<VCF>)
 
     if ($_ =~ m/^\##/)
     {
-        next; #skip file headders
+        next; #skip file headers
     }
     elsif ($_ =~ m/^#CHROM/)
     {
-        push @sampleIDs, @line; # store main headder in array
-        splice @sampleIDs, 0, 9; # remove the non-population entries of the headder
+        push @sampleIDs, @line; # store main header in array
+        splice @sampleIDs, 0, 9; # remove the non-population entries of the header
         $sampleArrayLength = scalar @sampleIDs; # store number of individuals in population/vcf
 
         #initialize array of samples (individuals)
@@ -101,7 +101,7 @@ while (<VCF>)
     }
     else
     {
-        #for every entrie in the VCF file, search HGMD for position match (chromosome, then position, then allele)
+        #for every entry in the VCF file, search HGMD for position match (chromosome, then position, then allele)
         for (my $i = 0; $i < $hgmd_length; $i++)
         {
             if ($hgmd_chr[$i] < $line[0])
@@ -132,7 +132,7 @@ while (<VCF>)
                         my @altblock = split (/,/,$line[4]); #split alt alleles into array
                         my $altCount = scalar @altblock; #store number of alt alleles 
 
-                        #check if the alt aleles match entry in hgmd
+                        #check if the alt alleles match entry in hgmd
                         for (my $j = 0; $j < $altCount; $j++)
                         {
                             if ($altblock[$j] eq $hgmd_alt[$i])
