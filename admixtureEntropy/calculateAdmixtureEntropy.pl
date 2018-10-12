@@ -41,35 +41,35 @@ while (<FILE>)
     }
 
     #calculate the admixture entropy: H = -sum(ancestryFraction * ln(ancestryFraction))
-    if ($line[1] == 0)
+    if ($line[2] == 0)
     {
         $afr = 0;
     }
-    elsif ($line[1] != 0)
+    elsif ($line[2] != 0)
     {
-        $afr = $line[1] * log($line[1]);
+        $afr = $line[2] * log($line[2]);
     }
     
-    if ($line[2] == 0)
+    if ($line[3] == 0)
     {
         $eur = 0;
     }
-    elsif ($line[2] != 0)
+    elsif ($line[3] != 0)
     {
-        $eur = $line[2] * log($line[2]);
+        $eur = $line[3] * log($line[3]);
     }
 
-    if ($line[3] == 0)
+    if ($line[4] == 0)
     {
         $nam = 0;
     }
-    elsif ($line[3] != 0)
+    elsif ($line[4] != 0)
     {
-        $nam = $line[3] * log($line[3]);
+        $nam = $line[4] * log($line[4]);
     }
 
     $sum = $afr + $eur + $nam;
     $sum = $sum * -1;
 
-    print OUT "\n$line[0]\t$line[1]\t$line[2]\t$line[3]\t$sum";
+    print OUT "\n$line[0]\t$line[1]\t$line[2]\t$line[3]\t$line[4]\t$sum";
 }
