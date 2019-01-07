@@ -100,7 +100,7 @@ Ideally there should only be one VCF file containing all samples of interest. Cu
 ### 2. Ancestry, Admixture, and Autozygosity
 
 #### Ancestral Fractions
-This part of the project was done by Andrew Conley.
+This part of the project was done by Dr. Andrew Conley.
 
 #### Admixture Entropy
 ##### Script Used
@@ -424,26 +424,5 @@ The ontology categories of interest are hard coded in the script.
 
 
 ## Notes for Myself
-- put all of the scripts into a pipeline so that all of this can be done with a single script
-- - - Make all scripts accept a list of vcf files instead of whatever they accept now
-- - - Edit snpFrequency_singlePop.pl so that it does not need POPULATION as input, get it from the name of the file like all the other scripts do
 - make sure all scripts used are described on README
 - Create script to find categories of interest at least two nodes above the terminal nodes
-
-### Statistical tests Notes
-Use ANOVA to calculate F and p value for the boxplots
-Make new PCA plots for all populations (ancestral frations and admixture entropy)
-Make a PCA plot to make sure that I divided the Native American individuals into genetic groups and not just geographical groups
-Find the regression models that fit:
-  - SROH and NROH vs Admixture Entropy
-  - SROH and NROH vs African Ancestral Fraction
-  - SROH and NROH vs African European Fraction
-  - SROH and NROH vs African Native American Fraction
-Make barplots with the following description
-  - y axis is the \beta value (calculated from regression models)
-  - x axis contains two bars per Ancestral Fraction / Admixture entropy
-    - bar 1: NROH
-    - bar 2: SROH
-  Hopefully this will verify that we should be using SROH for autozygosity analysis instead of NROH
-
-What statystical test should I use for the Ontology categories? Consider hypergeometric.
