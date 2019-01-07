@@ -8,7 +8,19 @@ The purpose of this project is to understand the effect of ancestry and admixtur
     ├── calculateAdmixtureEntropy.pl
     ├── calculateAdmixtureEntropy_unk.pl
 ├── autozygosity/
-    ├── roh.pl
+    ├── localAncestryMapping
+    	├── 1kgpToAndyMapping.pl
+	├── calculateAncestryROH.pl
+	├── mapROHtoLocalAncestry.pl
+    ├── NROH_SROH
+    	├── roh.pl
+    ├── regressionModels
+    	├── exponentialRegression_makeplot_singlemodel.R
+	├── linearRegression_makeplot_singlemodel.R
+	├── linearRegressionModel_allPoints.R
+	├── linearRegressionModel.R
+	├── modelSelection.R
+	├── nonLinearRegressionModel_allPoints.R
 ├── data_handling/
     ├── data_cleaning/
         ├── cleanHGMD.pl
@@ -117,6 +129,20 @@ calculateAdmixtureEntropy_unk.pl is the same as calculateAdmixtureEntropy.pl but
 - roh.pl
 ##### Description
 Plink is used to calculate the Runs of Homozygosity from a vcf file. The plink output file sometimes is missing fields, so the awk command simply gets the fields needed for NROH and SROH analysis, so that the roh.pl script does not have to account for missing fields. roh.pl calculates the NROH and SROH per individual.
+
+#### Relationship Analysis (Regression models)
+##### Scripts Used
+- all scripts in the autozygosity/regressionModels directory
+##### Description
+The purpose of this analysis was to attempt to find a statistically significant relationship between Ancestry and Admixture and Autozygosity. Both linear and non-linear models were built.
+
+#### Relationship Analysis (Local Ancestry)
+##### Scripts Used
+- 1kgpToAndyMapping.pl (map 1kgp IDs to Local Ancestry IDs)
+- calculateAncestryROH.pl (calculate SROH of populations, per local ancestry)
+- mapROHtoLocalAncestry.pl
+##### Description
+First you must map the 1KGP IDs to the IDs in Andy's Local Ancestry results. Then you can run the mapROHtoLOcalAncestry,pl script to map each ROH to a local ancestry. If no single ancestry maps to the ROH, then UNK is assigned to that ROH. After the ROHs have been mapped, you can use the calculateAncestryROH.pl script to calculate the total SROH of each population by the local ancestry it maps to. 
 
 ### 3. Disease Burden
 
