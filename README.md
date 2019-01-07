@@ -47,18 +47,16 @@ The purpose of this project is to understand the effect of ancestry and admixtur
         ├── snpFrequency_singlePop.pl
 ```
 ## Important Notes
-This project has gone through various phases and at the moment some of these scripts might seem incompatible, I am currently working on making everything uniform with a single multi VCF as input.
-A pipeline will be published on this repository soon.
-Most scripts are described in the Script Description part of the README, those that are not will be described soon (they should all be commented).
+Most scripts are described in the Script Description section of the README, those that are not will be described soon (they should all be commented).
 
 ### Acronyms
-1KGP - 1000 Genomes Project
-HGMD - Human Gene Mutation Database
-NROH - Number of Runs Of Homozygosity
-ROH - Runs Of Homozygosity
-SGDP - Simons Genome Diversity Project
-SROH - Sum Of Runs of Homozygosity
-VCF -  Variant Calling Format
+###### 1KGP - 1000 Genomes Project
+###### HGMD - Human Gene Mutation Database
+###### NROH - Number of Runs Of Homozygosity
+###### ROH - Runs Of Homozygosity
+###### SGDP - Simons Genome Diversity Project
+###### SROH - Sum Of Runs of Homozygosity
+###### VCF -  Variant Calling Format
 
 ## General Project Protocol
 
