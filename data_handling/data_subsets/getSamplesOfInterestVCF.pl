@@ -43,9 +43,9 @@ else
 }
 while (<$ifh>)
 {
-	if ($_ =~ m/^\##/)
+    if ($_ =~ m/^\##/)
     {
-        next;
+        print OUT $_;
     }
     elsif ($_ =~ m/^\#CHROM/)
     {
