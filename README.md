@@ -1,6 +1,12 @@
 # Effect of Ancestry and Admixture on Autozygosity and the Burden of Heritable Disease
 The purpose of this project is to understand the effect of ancestry and admixture on autozygosity and disease burden. This is done by analyzing the distribution of disease causing variants in admixed Latin American Populations.
 
+## Table of Contents
+- [Directory Structure](#directory-structure)
+- [Important Notes](#important-notes)
+- [General Project Protocol](#general-project-protocol)
+- [Script Description](#script-description)
+
 ## Directory Structure
 ```
 ├── README.md
@@ -87,10 +93,12 @@ Most scripts are described in the Script Description section of the README, thos
 ## General Project Protocol
 
 All scripts are thoroughly described in the **Script Description** section of the README. This section explains the general project protocol.
-1. Data Preparation
-2. Ancestry and Admixture
-3. Autozygosity
-4. Disease Burden
+
+### General Project Protocol Table of Contents
+- [Data Preparation](#data-preparation)
+- [Ancestry and Admixture](#ancestry-and-admixture)
+- [Autozygosity](#autozygosity)
+- [Disease Burden](#disease-burden)
 
 ### 1. Data Preparation
 
