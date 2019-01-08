@@ -79,7 +79,6 @@ The purpose of this project is to understand the effect of ancestry and admixtur
         ├── snpFrequency_singlePop.pl
 ```
 ## Important Notes
-Most scripts are described in the Script Description section of the README, those that are not will be described soon (they should all be commented).
 
 ### Acronyms
 ###### 1KGP - 1000 Genomes Project
