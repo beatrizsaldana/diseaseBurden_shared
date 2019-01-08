@@ -92,7 +92,7 @@ Most scripts are described in the Script Description section of the README, thos
 
 ## General Project Protocol
 
-All scripts are thoroughly described in the **Script Description** section of the README. This section explains the general project protocol.
+All scripts are thoroughly described in the [Script Description](#script-description) section of the README. This section explains the general project protocol.
 
 ### General Project Protocol Table of Contents
 - [Data Preparation](#1-data-preparation)
