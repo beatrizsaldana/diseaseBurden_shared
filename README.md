@@ -1,4 +1,4 @@
-# Effect of Ancestry and Admixture on Autozygosity and the Burden of Inheritable Disease
+# Effect of Ancestry and Admixture on Autozygosity and the Burden of Heritable Disease
 The purpose of this project is to understand the effect of ancestry and admixture on autozygosity and disease burden. This is done by analyzing the distribution of disease causing variants in admixed Latin American Populations.
 
 ## Directory Structure
