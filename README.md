@@ -4,6 +4,9 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 ## Directory Structure
 ```
 ├── README.md
+├── PCA/
+    ├── plinkCommandsPCA.sh
+    ├── prePCAprocess.sh
 ├── admixtureEntropy/    
     ├── calculateAdmixtureEntropy.pl
     ├── calculateAdmixtureEntropy_unk.pl
@@ -26,17 +29,24 @@ The purpose of this project is to understand the effect of ancestry and admixtur
         ├── cleanHGMD.pl
     ├── data_merging/
         ├── addPop.pl
+	├── addPopID.pl
+	├── addPop_noHead.pl
+	├── joinFilesOnID.pl
+	├── mapAndyIds.pl
+	├── merge2VCFs.pl
         ├── mergeHGMD.pl
+	├── sampleID_popID.pl
     ├── data_subsets/
         ├── getHgmdSubset.pl
         ├── getSamplesOfInterestVCF.pl
         ├── hgmdSubset.pl
+	├── makeVCFsubset_intersect.pl
         ├── makeVCFsubsets.pl
         ├── vcfSubset_snpFreq_perIndividual.pl
 ├── ontology/
     ├── ontology_chrPos.pl
     ├── ontology_countSnps.pl
-    ├── ontology_normalize.pl=
+    ├── ontology_normalize.pl
     ├── ontology_snpFreq_nta.pl
     ├── ontology_snpFreq.pl
     ├── ontology.txt
@@ -45,8 +55,12 @@ The purpose of this project is to understand the effect of ancestry and admixtur
         ├── ancestryComparison.pl
         ├── aswPelComparison.pl
 ├── plots/
+    ├── PCA.html
+    ├── PCA_NTA.html
     ├── generatePlots_boxplot.R
+    ├── makePCA.R
     ├── ontologyPlots.R
+    ├── pca_dataPruning.sh
 ├── snpFrequency/
     ├── individualsWithDiseaseCausingVariants.pl
     ├── snpFrequency_perIndividual/
