@@ -95,12 +95,16 @@ Most scripts are described in the Script Description section of the README, thos
 All scripts are thoroughly described in the **Script Description** section of the README. This section explains the general project protocol.
 
 ### General Project Protocol Table of Contents
-- [Data Preparation](#data-preparation)
-- [Ancestry and Admixture](#ancestry-and-admixture)
-- [Autozygosity](#autozygosity)
-- [Disease Burden](#disease-burden)
+- [Data Preparation](#1-data-preparation)
+- [Ancestry and Admixture](#2-ancestry-and-admixture)
+- [Autozygosity](#3-autozygosity)
+- [Disease Burden](#4-disease-burden)
 
 ### 1. Data Preparation
+
+#### Data Preparation Table of Contents
+- [HGMD](#HGMD)
+- [VCF Files](#vcf-files-from-1kgp-and-sgdp)
 
 #### HGMD
 ##### Source
@@ -150,6 +154,11 @@ calculateAdmixtureEntropy_unk.pl is the same as calculateAdmixtureEntropy.pl but
 
 ### 3. Autozygosity
 
+### Autozygosity Table of Contents
+- [Runs of Homozygosity](#runs-of-homozygosity)
+- [Regression Analysis](#relationship-analysis-regression-models)
+- [Local Ancestry Mapping](#relationship-analysis-local-ancestry)
+
 #### Runs of Homozygosity
 ##### Script Used
 - plink --vcf path/to/vcfFile.vcf --homozyg
@@ -173,6 +182,20 @@ The purpose of this analysis was to attempt to find a statistically significant 
 First you must map the 1KGP IDs to the IDs in Andy's Local Ancestry results. Then you can run the mapROHtoLOcalAncestry,pl script to map each ROH to a local ancestry. If no single ancestry maps to the ROH, then UNK is assigned to that ROH. After the ROHs have been mapped, you can use the calculateAncestryROH.pl script to calculate the total SROH of each population by the local ancestry it maps to. 
 
 ### 3. Disease Burden
+
+#### Disease Burden Table of Contents
+- [HGMD Variants Per Individual](#hgmd-variants-per-individual)
+- [Individuals With Disease Causing Variants](#individuals-with-disease-causing-variants)
+- [Disease Causing Variants per Individual](#disease-causing-variants-per-individual)
+- [SNP Frequency per Population](#snp-frequency-per-population)
+- [Disease Ontology Curation](#disease-ontology-curation)
+- [Disease Ontology VCF subsets](#disease-ontology-vcf-subsets)
+- [Disease Ontology Frequency Calculation](#disease-ontology-frequency-calculaiton)
+- [Disease Ontology Trait/Disease to Geomic Position](#disease-ontology-traitdisease-to-geomic-position)
+- [Disease Ontology Result Normalization](#disease-ontology-result-normalization)
+- [Disease Ontology Statistical Analysis](#disease-ontology-statistical-analysis-calculating-z-scores)
+- [Disease Ontology Finding Categories of Interest](#disease-ontology-finding-categories-of-interest)
+- [Disease Ontology Plots](#disease-ontology-plots)
 
 #### HGMD variants per individual
 ##### Script Used
