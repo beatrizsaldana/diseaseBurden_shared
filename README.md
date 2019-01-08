@@ -21,7 +21,7 @@ The purpose of this project is to understand the effect of ancestry and admixtur
 	├── linearRegressionModel.R
 	├── modelSelection.R
 	├── nonLinearRegressionModel_allPoints.R
-├── data_handling/
+├── dataHandling/
     ├── data_cleaning/
         ├── cleanHGMD.pl
     ├── data_merging/
