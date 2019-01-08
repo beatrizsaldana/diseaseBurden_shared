@@ -86,7 +86,11 @@ Most scripts are described in the Script Description section of the README, thos
 
 ## General Project Protocol
 
-All scripts are thoroughly described in the **Script Description** section of the README. This section explains the general process of the analysis
+All scripts are thoroughly described in the **Script Description** section of the README. This section explains the general project protocol.
+1. Data Preparation
+2. Ancestry and Admixture
+3. Autozygosity
+4. Disease Burden
 
 ### 1. Data Preparation
 
@@ -123,9 +127,9 @@ The initial VCF files contained all 1KGP individuals and were divided into diffe
 We needed multi-VCF files for the following 1KGP populations: ACB, ASW, CLM, MXL, PEL, PUR, GRB, IBS, ESN, YRI
 Ideally there should only be one VCF file containing all samples of interest. Currenly some scripts work with multiple files, others with a single file.
 
-### 2. Ancestry, Admixture, and Autozygosity
+### 2. Ancestry and Admixture
 
-#### Ancestral Fractions
+#### Ancestral Fractions and Local Ancestry
 This part of the project was done by Dr. Andrew Conley.
 
 #### Admixture Entropy
@@ -136,7 +140,9 @@ This part of the project was done by Dr. Andrew Conley.
 The script calculates de admixture entropy of all individuals using the following formula: $Admixture Entropy=-\sum f(a) ln(f(a))$
 calculateAdmixtureEntropy_unk.pl is the same as calculateAdmixtureEntropy.pl but takes the Unknown Ancestry percentage into account when calculating the admixture entropy.
 
-#### Autozygosity
+### 3. Autozygosity
+
+#### Runs of Homozygosity
 ##### Script Used
 - plink --vcf path/to/vcfFile.vcf --homozyg
 - akw 'BEGIN{OFS="\t"}{print $2, $7, $8}' plink.hom
@@ -201,55 +207,52 @@ The scripts outputs all variants present in both the VCF files and the HGMD, one
 ##### Notes
 This used to be a single script. But since we are using data from the 1KGP and SGDP we wanted to avoid accidentally counting extra variants for the different populations.
 
-### 4. Ontology
-
-#### Ontology Curation
+#### Disease Ontology Curation
 An ontology was created by classifying the traits/diseases in the HGMD into hierarchical categories, by hand. No script, sorry.
 
-#### Ontology VCF subsets
+#### Disease Ontology VCF subsets
 ##### Script Used
 - vcfSubset_snpFreq_perIndividual.pl
 ###### Description
 This script makes subsets of the VCF with diseases that are only present in the 'Disease Risk' category of the Disease Ontology or 'Disease Protection' category of the Disease Ontology. This is helpful for faster frequency calculations or if we need to re-do the analysis.
 
-#### Ontology Frequency Calculation
+#### Disease Ontology Frequency Calculation
 ##### Script Used
 - ontology_snpFreq.pl
 ##### Description
 The script first appends the frequency of each trait/disease per population to the ontology, and then sums up the totals per ontology category. The frequency is taken from the output of the snpFrequency.pl script.
 
-#### Ontology Trait/Disease to Geomic Position
+#### Disease Ontology Trait/Disease to Geomic Position
 ##### Script Used
 - ontology_chrPos.pl
 ##### Description
 The script first appends the genomic position of variant associated with every HGMD trait/disease, in the chromosome:position format, and then makes a list of all variants per ontology category.
 
-### 5. Ontology Result Analysis
-
-#### Result Normalization
+#### Disease Ontology Result Normalization
 ##### Script Used
 - ontology_normalize.pl
 ##### Description
 The script normalizes the results of ontology_snpFreq.pl by the population size and by the number of SNPs per ontology category.
 
-#### Statistical Analysis (Calculating Z scores)
+#### Disease Ontology Statistical Analysis (Calculating Z scores)
 ##### Script Used
 - ontology_zscores.pl
 ##### Description
 The script calculates the z-scores of every ontology category. The population standard deviation is used for this calculation.
 
-#### Finding Categories of Interest
+#### Disease Ontology Finding Categories of Interest
 ##### Scripts Used
 - ancestryComparison.pl
 - aswPelComparison.pl
 ##### Description
 The scripts compares the results of the ontology based on ancestral populations and admixed populations. of the ancestral populations, and if there is a significant difference, it will output the categories of interest. The "significance" parameter is inuted by the user (percent difference). We decided to compare ancestral populations to avoid imposing our hypothesis onto the results.
 
-#### Making Plots
+#### Disease Ontology Plots
 ##### Script Used
 - ontologyPlots.R
 ##### Description
 The script generates column (bar) plots for the "categories of interest" in the ontology.
+
 
 ## Script Description
 
